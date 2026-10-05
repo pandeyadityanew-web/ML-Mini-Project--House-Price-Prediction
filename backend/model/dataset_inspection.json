@@ -1,0 +1,70 @@
+{
+  "total_rows": 4000,
+  "total_columns": 16,
+  "columns": [
+    "City",
+    "Locality",
+    "Property_Type",
+    "BHK",
+    "Bathrooms",
+    "Area_SqFt",
+    "Floor_No",
+    "Total_Floors",
+    "Property_Age",
+    "Furnishing_Status",
+    "Parking_Spaces",
+    "Gated_Community",
+    "Metro_Distance_KM",
+    "Amenities_Score",
+    "Price_per_SqFt",
+    "Price_INR_Lakhs"
+  ],
+  "data_types": {
+    "City": "str",
+    "Locality": "str",
+    "Property_Type": "str",
+    "BHK": "int64",
+    "Bathrooms": "int64",
+    "Area_SqFt": "int64",
+    "Floor_No": "int64",
+    "Total_Floors": "int64",
+    "Property_Age": "int64",
+    "Furnishing_Status": "str",
+    "Parking_Spaces": "int64",
+    "Gated_Community": "str",
+    "Metro_Distance_KM": "float64",
+    "Amenities_Score": "int64",
+    "Price_per_SqFt": "float64",
+    "Price_INR_Lakhs": "float64"
+  },
+  "missing_values": {
+    "City": 0,
+    "Locality": 0,
+    "Property_Type": 0,
+    "BHK": 0,
+    "Bathrooms": 0,
+    "Area_SqFt": 0,
+    "Floor_No": 0,
+    "Total_Floors": 0,
+    "Property_Age": 0,
+    "Furnishing_Status": 0,
+    "Parking_Spaces": 0,
+    "Gated_Community": 0,
+    "Metro_Distance_KM": 0,
+    "Amenities_Score": 0,
+    "Price_per_SqFt": 0,
+    "Price_INR_Lakhs": 0
+  },
+  "duplicate_rows": 0,
+  "removed_leakage_features": [
+    "Price_per_SqFt"
+  ],
+  "target_variable": "Price_INR_Lakhs",
+  "target_summary": {
+    "min_lakhs": 19.64,
+    "max_lakhs": 4587.0,
+    "mean_lakhs": 399.88,
+    "median_lakhs": 258.21,
+    "std_lakhs": 427.28
+  }
+}

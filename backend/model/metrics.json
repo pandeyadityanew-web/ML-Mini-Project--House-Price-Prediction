@@ -1,0 +1,132 @@
+{
+  "dataset_name": "Indian Urban House Price Prediction Dataset",
+  "total_records": 4000,
+  "train_records": 3200,
+  "test_records": 800,
+  "target_variable": "Price_INR_Lakhs",
+  "numeric_features": [
+    "BHK",
+    "Bathrooms",
+    "Area_SqFt",
+    "Floor_No",
+    "Total_Floors",
+    "Property_Age",
+    "Parking_Spaces",
+    "Metro_Distance_KM",
+    "Amenities_Score"
+  ],
+  "categorical_features": [
+    "City",
+    "Locality",
+    "Property_Type",
+    "Furnishing_Status",
+    "Gated_Community"
+  ],
+  "removed_leakage_features": [
+    "Price_per_SqFt"
+  ],
+  "cities": [
+    "Ahmedabad",
+    "Bangalore",
+    "Chennai",
+    "Delhi NCR",
+    "Hyderabad",
+    "Kolkata",
+    "Mumbai",
+    "Pune"
+  ],
+  "city_localities": {
+    "Mumbai": {
+      "Bandra West": 42000,
+      "Worli": 46000,
+      "Andheri East": 21000,
+      "Juhu": 48000,
+      "Thane West": 12500,
+      "Navi Mumbai (Vashi)": 14000
+    },
+    "Bangalore": {
+      "Indiranagar": 19000,
+      "Koramangala": 18500,
+      "Whitefield": 9200,
+      "HSR Layout": 14000,
+      "Electronic City": 6500,
+      "Hebbal": 11500
+    },
+    "Delhi NCR": {
+      "Gurgaon Golf Course Rd": 28000,
+      "Gurgaon Cyber City": 18500,
+      "South Extension": 26000,
+      "Vasant Kunj": 22000,
+      "Noida Sector 62": 8200,
+      "Noida Expressway": 9200
+    },
+    "Pune": {
+      "Koregaon Park": 16000,
+      "Kalyani Nagar": 14000,
+      "Baner": 10500,
+      "Hinjewadi": 7500,
+      "Wakad": 8200
+    },
+    "Hyderabad": {
+      "Jubilee Hills": 24000,
+      "Banjara Hills": 22000,
+      "HITEC City": 12000,
+      "Gachibowli": 11000,
+      "Madhapur": 11500
+    },
+    "Chennai": {
+      "Anna Nagar": 15500,
+      "Adyar": 17500,
+      "Boat Club Road": 28000,
+      "OMR IT Corridor": 7200,
+      "Velachery": 8800
+    },
+    "Kolkata": {
+      "Park Street": 16500,
+      "Ballygunge": 15000,
+      "Salt Lake Sector V": 8500,
+      "New Town": 6800,
+      "Alipore": 21000
+    },
+    "Ahmedabad": {
+      "SG Highway": 7500,
+      "Bodakdev": 9500,
+      "Prahlad Nagar": 8800,
+      "Satellite": 8200,
+      "Bopal": 5500
+    }
+  },
+  "property_types": [
+    "Apartment",
+    "Independent House",
+    "Villa",
+    "Penthouse",
+    "Studio"
+  ],
+  "furnishing_statuses": [
+    "Furnished",
+    "Semi-Furnished",
+    "Unfurnished"
+  ],
+  "best_model": "Gradient Boosting",
+  "models_performance": {
+    "Linear Regression": {
+      "MAE": 122.38,
+      "RMSE": 211.88,
+      "R2": 0.7969,
+      "MAPE": 59.63
+    },
+    "Random Forest": {
+      "MAE": 69.58,
+      "RMSE": 125.99,
+      "R2": 0.9282,
+      "MAPE": 20.05
+    },
+    "Gradient Boosting": {
+      "MAE": 49.33,
+      "RMSE": 92.4,
+      "R2": 0.9614,
+      "MAPE": 13.15
+    }
+  }
+}

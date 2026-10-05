@@ -1,0 +1,54 @@
+[
+  {
+    "feature": "Built-Up Area (Sq.Ft)",
+    "importance": 45.01
+  },
+  {
+    "feature": "Micro-Market Locality",
+    "importance": 30.95
+  },
+  {
+    "feature": "City & Metro Hub",
+    "importance": 13.89
+  },
+  {
+    "feature": "Property Type",
+    "importance": 3.63
+  },
+  {
+    "feature": "Floor Level & Height",
+    "importance": 3.49
+  },
+  {
+    "feature": "Furnishing Status",
+    "importance": 0.79
+  },
+  {
+    "feature": "Bathrooms",
+    "importance": 0.68
+  },
+  {
+    "feature": "Property Age",
+    "importance": 0.53
+  },
+  {
+    "feature": "Amenities Score",
+    "importance": 0.35
+  },
+  {
+    "feature": "BHK Layout",
+    "importance": 0.29
+  },
+  {
+    "feature": "Metro Proximity",
+    "importance": 0.26
+  },
+  {
+    "feature": "Gated Community Status",
+    "importance": 0.08
+  },
+  {
+    "feature": "Parking Spaces",
+    "importance": 0.06
+  }
+]

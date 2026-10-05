@@ -1,0 +1,957 @@
+{
+  "actual_vs_predicted": [
+    {
+      "id": 0,
+      "actual_lakhs": 282.4,
+      "predicted_lakhs": 247.56,
+      "actual_cr": 2.82,
+      "predicted_cr": 2.48,
+      "bhk": 2,
+      "area": 1238,
+      "city": "Bangalore",
+      "locality": "Koramangala"
+    },
+    {
+      "id": 1,
+      "actual_lakhs": 241.9,
+      "predicted_lakhs": 219.91,
+      "actual_cr": 2.42,
+      "predicted_cr": 2.2,
+      "bhk": 2,
+      "area": 1282,
+      "city": "Pune",
+      "locality": "Koregaon Park"
+    },
+    {
+      "id": 2,
+      "actual_lakhs": 630.65,
+      "predicted_lakhs": 786.16,
+      "actual_cr": 6.31,
+      "predicted_cr": 7.86,
+      "bhk": 3,
+      "area": 2934,
+      "city": "Bangalore",
+      "locality": "HSR Layout"
+    },
+    {
+      "id": 3,
+      "actual_lakhs": 328.73,
+      "predicted_lakhs": 298.11,
+      "actual_cr": 3.29,
+      "predicted_cr": 2.98,
+      "bhk": 2,
+      "area": 1315,
+      "city": "Mumbai",
+      "locality": "Andheri East"
+    },
+    {
+      "id": 4,
+      "actual_lakhs": 179.23,
+      "predicted_lakhs": 140.31,
+      "actual_cr": 1.79,
+      "predicted_cr": 1.4,
+      "bhk": 3,
+      "area": 945,
+      "city": "Chennai",
+      "locality": "Anna Nagar"
+    },
+    {
+      "id": 5,
+      "actual_lakhs": 162.37,
+      "predicted_lakhs": 193.43,
+      "actual_cr": 1.62,
+      "predicted_cr": 1.93,
+      "bhk": 3,
+      "area": 1454,
+      "city": "Hyderabad",
+      "locality": "HITEC City"
+    },
+    {
+      "id": 6,
+      "actual_lakhs": 210.21,
+      "predicted_lakhs": 178.88,
+      "actual_cr": 2.1,
+      "predicted_cr": 1.79,
+      "bhk": 3,
+      "area": 1692,
+      "city": "Ahmedabad",
+      "locality": "Prahlad Nagar"
+    },
+    {
+      "id": 7,
+      "actual_lakhs": 274.21,
+      "predicted_lakhs": 261.07,
+      "actual_cr": 2.74,
+      "predicted_cr": 2.61,
+      "bhk": 3,
+      "area": 1764,
+      "city": "Pune",
+      "locality": "Kalyani Nagar"
+    },
+    {
+      "id": 8,
+      "actual_lakhs": 168.1,
+      "predicted_lakhs": 189.01,
+      "actual_cr": 1.68,
+      "predicted_cr": 1.89,
+      "bhk": 2,
+      "area": 1406,
+      "city": "Hyderabad",
+      "locality": "Gachibowli"
+    },
+    {
+      "id": 9,
+      "actual_lakhs": 184.29,
+      "predicted_lakhs": 206.73,
+      "actual_cr": 1.84,
+      "predicted_cr": 2.07,
+      "bhk": 2,
+      "area": 1315,
+      "city": "Pune",
+      "locality": "Koregaon Park"
+    },
+    {
+      "id": 10,
+      "actual_lakhs": 188.12,
+      "predicted_lakhs": 165.86,
+      "actual_cr": 1.88,
+      "predicted_cr": 1.66,
+      "bhk": 2,
+      "area": 1058,
+      "city": "Mumbai",
+      "locality": "Navi Mumbai (Vashi)"
+    },
+    {
+      "id": 11,
+      "actual_lakhs": 661.65,
+      "predicted_lakhs": 555.98,
+      "actual_cr": 6.62,
+      "predicted_cr": 5.56,
+      "bhk": 4,
+      "area": 3067,
+      "city": "Kolkata",
+      "locality": "Park Street"
+    },
+    {
+      "id": 12,
+      "actual_lakhs": 697.47,
+      "predicted_lakhs": 623.27,
+      "actual_cr": 6.97,
+      "predicted_cr": 6.23,
+      "bhk": 4,
+      "area": 2551,
+      "city": "Hyderabad",
+      "locality": "Banjara Hills"
+    },
+    {
+      "id": 13,
+      "actual_lakhs": 90.12,
+      "predicted_lakhs": 96.53,
+      "actual_cr": 0.9,
+      "predicted_cr": 0.97,
+      "bhk": 3,
+      "area": 1177,
+      "city": "Bangalore",
+      "locality": "Whitefield"
+    },
+    {
+      "id": 14,
+      "actual_lakhs": 98.95,
+      "predicted_lakhs": 112.73,
+      "actual_cr": 0.99,
+      "predicted_cr": 1.13,
+      "bhk": 1,
+      "area": 532,
+      "city": "Bangalore",
+      "locality": "Indiranagar"
+    },
+    {
+      "id": 15,
+      "actual_lakhs": 408.71,
+      "predicted_lakhs": 356.19,
+      "actual_cr": 4.09,
+      "predicted_cr": 3.56,
+      "bhk": 3,
+      "area": 1797,
+      "city": "Bangalore",
+      "locality": "Koramangala"
+    },
+    {
+      "id": 16,
+      "actual_lakhs": 29.3,
+      "predicted_lakhs": 4.84,
+      "actual_cr": 0.29,
+      "predicted_cr": 0.05,
+      "bhk": 1,
+      "area": 434,
+      "city": "Kolkata",
+      "locality": "New Town"
+    },
+    {
+      "id": 17,
+      "actual_lakhs": 22.24,
+      "predicted_lakhs": 17.81,
+      "actual_cr": 0.22,
+      "predicted_cr": 0.18,
+      "bhk": 1,
+      "area": 409,
+      "city": "Ahmedabad",
+      "locality": "Bopal"
+    },
+    {
+      "id": 18,
+      "actual_lakhs": 297.5,
+      "predicted_lakhs": 364.25,
+      "actual_cr": 2.98,
+      "predicted_cr": 3.64,
+      "bhk": 2,
+      "area": 1111,
+      "city": "Chennai",
+      "locality": "Boat Club Road"
+    },
+    {
+      "id": 19,
+      "actual_lakhs": 545.78,
+      "predicted_lakhs": 545.26,
+      "actual_cr": 5.46,
+      "predicted_cr": 5.45,
+      "bhk": 4,
+      "area": 3070,
+      "city": "Pune",
+      "locality": "Wakad"
+    },
+    {
+      "id": 20,
+      "actual_lakhs": 371.37,
+      "predicted_lakhs": 439.78,
+      "actual_cr": 3.71,
+      "predicted_cr": 4.4,
+      "bhk": 3,
+      "area": 1992,
+      "city": "Mumbai",
+      "locality": "Andheri East"
+    },
+    {
+      "id": 21,
+      "actual_lakhs": 93.72,
+      "predicted_lakhs": 116.0,
+      "actual_cr": 0.94,
+      "predicted_cr": 1.16,
+      "bhk": 1,
+      "area": 505,
+      "city": "Hyderabad",
+      "locality": "Jubilee Hills"
+    },
+    {
+      "id": 22,
+      "actual_lakhs": 120.24,
+      "predicted_lakhs": 137.22,
+      "actual_cr": 1.2,
+      "predicted_cr": 1.37,
+      "bhk": 2,
+      "area": 1272,
+      "city": "Ahmedabad",
+      "locality": "Bodakdev"
+    },
+    {
+      "id": 23,
+      "actual_lakhs": 598.23,
+      "predicted_lakhs": 505.07,
+      "actual_cr": 5.98,
+      "predicted_cr": 5.05,
+      "bhk": 4,
+      "area": 2041,
+      "city": "Delhi NCR",
+      "locality": "Vasant Kunj"
+    },
+    {
+      "id": 24,
+      "actual_lakhs": 123.06,
+      "predicted_lakhs": 143.73,
+      "actual_cr": 1.23,
+      "predicted_cr": 1.44,
+      "bhk": 2,
+      "area": 1030,
+      "city": "Pune",
+      "locality": "Baner"
+    },
+    {
+      "id": 25,
+      "actual_lakhs": 781.22,
+      "predicted_lakhs": 757.96,
+      "actual_cr": 7.81,
+      "predicted_cr": 7.58,
+      "bhk": 3,
+      "area": 1646,
+      "city": "Mumbai",
+      "locality": "Worli"
+    },
+    {
+      "id": 26,
+      "actual_lakhs": 124.37,
+      "predicted_lakhs": 124.77,
+      "actual_cr": 1.24,
+      "predicted_cr": 1.25,
+      "bhk": 2,
+      "area": 1210,
+      "city": "Pune",
+      "locality": "Hinjewadi"
+    },
+    {
+      "id": 27,
+      "actual_lakhs": 102.57,
+      "predicted_lakhs": 114.42,
+      "actual_cr": 1.03,
+      "predicted_cr": 1.14,
+      "bhk": 2,
+      "area": 1273,
+      "city": "Chennai",
+      "locality": "OMR IT Corridor"
+    },
+    {
+      "id": 28,
+      "actual_lakhs": 560.99,
+      "predicted_lakhs": 627.22,
+      "actual_cr": 5.61,
+      "predicted_cr": 6.27,
+      "bhk": 5,
+      "area": 3256,
+      "city": "Mumbai",
+      "locality": "Thane West"
+    },
+    {
+      "id": 29,
+      "actual_lakhs": 518.86,
+      "predicted_lakhs": 421.95,
+      "actual_cr": 5.19,
+      "predicted_cr": 4.22,
+      "bhk": 3,
+      "area": 1559,
+      "city": "Delhi NCR",
+      "locality": "South Extension"
+    },
+    {
+      "id": 30,
+      "actual_lakhs": 94.7,
+      "predicted_lakhs": 97.98,
+      "actual_cr": 0.95,
+      "predicted_cr": 0.98,
+      "bhk": 2,
+      "area": 995,
+      "city": "Bangalore",
+      "locality": "Whitefield"
+    },
+    {
+      "id": 31,
+      "actual_lakhs": 39.58,
+      "predicted_lakhs": 20.45,
+      "actual_cr": 0.4,
+      "predicted_cr": 0.2,
+      "bhk": 1,
+      "area": 504,
+      "city": "Bangalore",
+      "locality": "Electronic City"
+    },
+    {
+      "id": 32,
+      "actual_lakhs": 128.02,
+      "predicted_lakhs": 123.6,
+      "actual_cr": 1.28,
+      "predicted_cr": 1.24,
+      "bhk": 2,
+      "area": 1118,
+      "city": "Pune",
+      "locality": "Wakad"
+    },
+    {
+      "id": 33,
+      "actual_lakhs": 425.97,
+      "predicted_lakhs": 476.56,
+      "actual_cr": 4.26,
+      "predicted_cr": 4.77,
+      "bhk": 4,
+      "area": 2757,
+      "city": "Pune",
+      "locality": "Baner"
+    },
+    {
+      "id": 34,
+      "actual_lakhs": 269.66,
+      "predicted_lakhs": 280.82,
+      "actual_cr": 2.7,
+      "predicted_cr": 2.81,
+      "bhk": 2,
+      "area": 1059,
+      "city": "Delhi NCR",
+      "locality": "Gurgaon Golf Course Rd"
+    },
+    {
+      "id": 35,
+      "actual_lakhs": 336.31,
+      "predicted_lakhs": 317.17,
+      "actual_cr": 3.36,
+      "predicted_cr": 3.17,
+      "bhk": 5,
+      "area": 3033,
+      "city": "Bangalore",
+      "locality": "Electronic City"
+    },
+    {
+      "id": 36,
+      "actual_lakhs": 585.82,
+      "predicted_lakhs": 642.41,
+      "actual_cr": 5.86,
+      "predicted_cr": 6.42,
+      "bhk": 4,
+      "area": 2741,
+      "city": "Kolkata",
+      "locality": "Ballygunge"
+    },
+    {
+      "id": 37,
+      "actual_lakhs": 250.84,
+      "predicted_lakhs": 243.86,
+      "actual_cr": 2.51,
+      "predicted_cr": 2.44,
+      "bhk": 3,
+      "area": 1608,
+      "city": "Chennai",
+      "locality": "Anna Nagar"
+    },
+    {
+      "id": 38,
+      "actual_lakhs": 303.33,
+      "predicted_lakhs": 266.47,
+      "actual_cr": 3.03,
+      "predicted_cr": 2.66,
+      "bhk": 3,
+      "area": 2183,
+      "city": "Delhi NCR",
+      "locality": "Noida Expressway"
+    },
+    {
+      "id": 39,
+      "actual_lakhs": 91.49,
+      "predicted_lakhs": 103.58,
+      "actual_cr": 0.91,
+      "predicted_cr": 1.04,
+      "bhk": 1,
+      "area": 504,
+      "city": "Bangalore",
+      "locality": "Koramangala"
+    },
+    {
+      "id": 40,
+      "actual_lakhs": 170.58,
+      "predicted_lakhs": 152.72,
+      "actual_cr": 1.71,
+      "predicted_cr": 1.53,
+      "bhk": 1,
+      "area": 838,
+      "city": "Mumbai",
+      "locality": "Navi Mumbai (Vashi)"
+    },
+    {
+      "id": 41,
+      "actual_lakhs": 661.7,
+      "predicted_lakhs": 562.83,
+      "actual_cr": 6.62,
+      "predicted_cr": 5.63,
+      "bhk": 3,
+      "area": 2439,
+      "city": "Pune",
+      "locality": "Koregaon Park"
+    },
+    {
+      "id": 42,
+      "actual_lakhs": 81.56,
+      "predicted_lakhs": 97.42,
+      "actual_cr": 0.82,
+      "predicted_cr": 0.97,
+      "bhk": 2,
+      "area": 1132,
+      "city": "Bangalore",
+      "locality": "Electronic City"
+    },
+    {
+      "id": 43,
+      "actual_lakhs": 47.02,
+      "predicted_lakhs": 50.74,
+      "actual_cr": 0.47,
+      "predicted_cr": 0.51,
+      "bhk": 1,
+      "area": 593,
+      "city": "Ahmedabad",
+      "locality": "SG Highway"
+    },
+    {
+      "id": 44,
+      "actual_lakhs": 193.1,
+      "predicted_lakhs": 190.52,
+      "actual_cr": 1.93,
+      "predicted_cr": 1.91,
+      "bhk": 4,
+      "area": 2046,
+      "city": "Delhi NCR",
+      "locality": "Noida Sector 62"
+    },
+    {
+      "id": 45,
+      "actual_lakhs": 196.69,
+      "predicted_lakhs": 218.73,
+      "actual_cr": 1.97,
+      "predicted_cr": 2.19,
+      "bhk": 2,
+      "area": 1021,
+      "city": "Bangalore",
+      "locality": "Koramangala"
+    },
+    {
+      "id": 46,
+      "actual_lakhs": 2333.04,
+      "predicted_lakhs": 1794.22,
+      "actual_cr": 23.33,
+      "predicted_cr": 17.94,
+      "bhk": 6,
+      "area": 4993,
+      "city": "Delhi NCR",
+      "locality": "South Extension"
+    },
+    {
+      "id": 47,
+      "actual_lakhs": 433.72,
+      "predicted_lakhs": 397.73,
+      "actual_cr": 4.34,
+      "predicted_cr": 3.98,
+      "bhk": 3,
+      "area": 1585,
+      "city": "Mumbai",
+      "locality": "Andheri East"
+    },
+    {
+      "id": 48,
+      "actual_lakhs": 543.33,
+      "predicted_lakhs": 497.8,
+      "actual_cr": 5.43,
+      "predicted_cr": 4.98,
+      "bhk": 2,
+      "area": 1001,
+      "city": "Mumbai",
+      "locality": "Bandra West"
+    },
+    {
+      "id": 49,
+      "actual_lakhs": 1345.91,
+      "predicted_lakhs": 1136.42,
+      "actual_cr": 13.46,
+      "predicted_cr": 11.36,
+      "bhk": 4,
+      "area": 2156,
+      "city": "Mumbai",
+      "locality": "Worli"
+    },
+    {
+      "id": 50,
+      "actual_lakhs": 351.65,
+      "predicted_lakhs": 323.32,
+      "actual_cr": 3.52,
+      "predicted_cr": 3.23,
+      "bhk": 3,
+      "area": 1983,
+      "city": "Bangalore",
+      "locality": "HSR Layout"
+    },
+    {
+      "id": 51,
+      "actual_lakhs": 317.54,
+      "predicted_lakhs": 341.49,
+      "actual_cr": 3.18,
+      "predicted_cr": 3.41,
+      "bhk": 4,
+      "area": 2801,
+      "city": "Ahmedabad",
+      "locality": "Prahlad Nagar"
+    },
+    {
+      "id": 52,
+      "actual_lakhs": 25.32,
+      "predicted_lakhs": 14.39,
+      "actual_cr": 0.25,
+      "predicted_cr": 0.14,
+      "bhk": 1,
+      "area": 402,
+      "city": "Chennai",
+      "locality": "OMR IT Corridor"
+    },
+    {
+      "id": 53,
+      "actual_lakhs": 654.86,
+      "predicted_lakhs": 616.02,
+      "actual_cr": 6.55,
+      "predicted_cr": 6.16,
+      "bhk": 4,
+      "area": 3030,
+      "city": "Pune",
+      "locality": "Koregaon Park"
+    },
+    {
+      "id": 54,
+      "actual_lakhs": 105.99,
+      "predicted_lakhs": 135.87,
+      "actual_cr": 1.06,
+      "predicted_cr": 1.36,
+      "bhk": 1,
+      "area": 450,
+      "city": "Delhi NCR",
+      "locality": "Vasant Kunj"
+    },
+    {
+      "id": 55,
+      "actual_lakhs": 389.45,
+      "predicted_lakhs": 395.76,
+      "actual_cr": 3.89,
+      "predicted_cr": 3.96,
+      "bhk": 3,
+      "area": 1518,
+      "city": "Bangalore",
+      "locality": "Koramangala"
+    },
+    {
+      "id": 56,
+      "actual_lakhs": 198.65,
+      "predicted_lakhs": 205.45,
+      "actual_cr": 1.99,
+      "predicted_cr": 2.05,
+      "bhk": 3,
+      "area": 1549,
+      "city": "Hyderabad",
+      "locality": "HITEC City"
+    },
+    {
+      "id": 57,
+      "actual_lakhs": 574.94,
+      "predicted_lakhs": 610.39,
+      "actual_cr": 5.75,
+      "predicted_cr": 6.1,
+      "bhk": 2,
+      "area": 1171,
+      "city": "Mumbai",
+      "locality": "Juhu"
+    },
+    {
+      "id": 58,
+      "actual_lakhs": 1247.59,
+      "predicted_lakhs": 927.9,
+      "actual_cr": 12.48,
+      "predicted_cr": 9.28,
+      "bhk": 4,
+      "area": 3245,
+      "city": "Mumbai",
+      "locality": "Andheri East"
+    },
+    {
+      "id": 59,
+      "actual_lakhs": 132.56,
+      "predicted_lakhs": 117.4,
+      "actual_cr": 1.33,
+      "predicted_cr": 1.17,
+      "bhk": 1,
+      "area": 584,
+      "city": "Bangalore",
+      "locality": "Koramangala"
+    },
+    {
+      "id": 60,
+      "actual_lakhs": 275.11,
+      "predicted_lakhs": 309.68,
+      "actual_cr": 2.75,
+      "predicted_cr": 3.1,
+      "bhk": 3,
+      "area": 1976,
+      "city": "Pune",
+      "locality": "Baner"
+    },
+    {
+      "id": 61,
+      "actual_lakhs": 1121.63,
+      "predicted_lakhs": 1196.91,
+      "actual_cr": 11.22,
+      "predicted_cr": 11.97,
+      "bhk": 4,
+      "area": 3723,
+      "city": "Bangalore",
+      "locality": "Indiranagar"
+    },
+    {
+      "id": 62,
+      "actual_lakhs": 363.7,
+      "predicted_lakhs": 378.56,
+      "actual_cr": 3.64,
+      "predicted_cr": 3.79,
+      "bhk": 4,
+      "area": 1925,
+      "city": "Bangalore",
+      "locality": "Koramangala"
+    },
+    {
+      "id": 63,
+      "actual_lakhs": 177.95,
+      "predicted_lakhs": 157.16,
+      "actual_cr": 1.78,
+      "predicted_cr": 1.57,
+      "bhk": 1,
+      "area": 907,
+      "city": "Pune",
+      "locality": "Koregaon Park"
+    },
+    {
+      "id": 64,
+      "actual_lakhs": 62.82,
+      "predicted_lakhs": 56.25,
+      "actual_cr": 0.63,
+      "predicted_cr": 0.56,
+      "bhk": 1,
+      "area": 482,
+      "city": "Mumbai",
+      "locality": "Thane West"
+    },
+    {
+      "id": 65,
+      "actual_lakhs": 167.22,
+      "predicted_lakhs": 186.96,
+      "actual_cr": 1.67,
+      "predicted_cr": 1.87,
+      "bhk": 2,
+      "area": 1179,
+      "city": "Mumbai",
+      "locality": "Thane West"
+    },
+    {
+      "id": 66,
+      "actual_lakhs": 3319.51,
+      "predicted_lakhs": 2989.2,
+      "actual_cr": 33.2,
+      "predicted_cr": 29.89,
+      "bhk": 5,
+      "area": 4385,
+      "city": "Mumbai",
+      "locality": "Juhu"
+    },
+    {
+      "id": 67,
+      "actual_lakhs": 1098.62,
+      "predicted_lakhs": 1326.6,
+      "actual_cr": 10.99,
+      "predicted_cr": 13.27,
+      "bhk": 3,
+      "area": 2877,
+      "city": "Delhi NCR",
+      "locality": "Gurgaon Golf Course Rd"
+    },
+    {
+      "id": 68,
+      "actual_lakhs": 523.95,
+      "predicted_lakhs": 582.08,
+      "actual_cr": 5.24,
+      "predicted_cr": 5.82,
+      "bhk": 3,
+      "area": 2432,
+      "city": "Delhi NCR",
+      "locality": "Gurgaon Cyber City"
+    },
+    {
+      "id": 69,
+      "actual_lakhs": 1746.98,
+      "predicted_lakhs": 1955.73,
+      "actual_cr": 17.47,
+      "predicted_cr": 19.56,
+      "bhk": 4,
+      "area": 3363,
+      "city": "Mumbai",
+      "locality": "Juhu"
+    },
+    {
+      "id": 70,
+      "actual_lakhs": 959.92,
+      "predicted_lakhs": 915.42,
+      "actual_cr": 9.6,
+      "predicted_cr": 9.15,
+      "bhk": 4,
+      "area": 2829,
+      "city": "Hyderabad",
+      "locality": "Banjara Hills"
+    },
+    {
+      "id": 71,
+      "actual_lakhs": 303.79,
+      "predicted_lakhs": 327.04,
+      "actual_cr": 3.04,
+      "predicted_cr": 3.27,
+      "bhk": 4,
+      "area": 3336,
+      "city": "Pune",
+      "locality": "Hinjewadi"
+    },
+    {
+      "id": 72,
+      "actual_lakhs": 142.65,
+      "predicted_lakhs": 144.41,
+      "actual_cr": 1.43,
+      "predicted_cr": 1.44,
+      "bhk": 2,
+      "area": 1070,
+      "city": "Hyderabad",
+      "locality": "Madhapur"
+    },
+    {
+      "id": 73,
+      "actual_lakhs": 394.64,
+      "predicted_lakhs": 349.74,
+      "actual_cr": 3.95,
+      "predicted_cr": 3.5,
+      "bhk": 3,
+      "area": 2262,
+      "city": "Pune",
+      "locality": "Kalyani Nagar"
+    },
+    {
+      "id": 74,
+      "actual_lakhs": 217.07,
+      "predicted_lakhs": 262.88,
+      "actual_cr": 2.17,
+      "predicted_cr": 2.63,
+      "bhk": 4,
+      "area": 2705,
+      "city": "Bangalore",
+      "locality": "Electronic City"
+    },
+    {
+      "id": 75,
+      "actual_lakhs": 404.49,
+      "predicted_lakhs": 387.67,
+      "actual_cr": 4.04,
+      "predicted_cr": 3.88,
+      "bhk": 3,
+      "area": 1565,
+      "city": "Hyderabad",
+      "locality": "Jubilee Hills"
+    },
+    {
+      "id": 76,
+      "actual_lakhs": 874.57,
+      "predicted_lakhs": 791.6,
+      "actual_cr": 8.75,
+      "predicted_cr": 7.92,
+      "bhk": 3,
+      "area": 1695,
+      "city": "Mumbai",
+      "locality": "Bandra West"
+    },
+    {
+      "id": 77,
+      "actual_lakhs": 460.09,
+      "predicted_lakhs": 438.22,
+      "actual_cr": 4.6,
+      "predicted_cr": 4.38,
+      "bhk": 3,
+      "area": 1513,
+      "city": "Chennai",
+      "locality": "Boat Club Road"
+    },
+    {
+      "id": 78,
+      "actual_lakhs": 164.96,
+      "predicted_lakhs": 164.5,
+      "actual_cr": 1.65,
+      "predicted_cr": 1.65,
+      "bhk": 2,
+      "area": 1125,
+      "city": "Hyderabad",
+      "locality": "Gachibowli"
+    },
+    {
+      "id": 79,
+      "actual_lakhs": 758.33,
+      "predicted_lakhs": 781.91,
+      "actual_cr": 7.58,
+      "predicted_cr": 7.82,
+      "bhk": 4,
+      "area": 2300,
+      "city": "Delhi NCR",
+      "locality": "Vasant Kunj"
+    }
+  ],
+  "price_distribution": [
+    {
+      "range": "\u20b90.20Cr - \u20b95.91Cr",
+      "count": 3218,
+      "min_lakhs": 19.64,
+      "max_lakhs": 590.56
+    },
+    {
+      "range": "\u20b95.91Cr - \u20b911.61Cr",
+      "count": 552,
+      "min_lakhs": 590.56,
+      "max_lakhs": 1161.48
+    },
+    {
+      "range": "\u20b911.61Cr - \u20b917.32Cr",
+      "count": 148,
+      "min_lakhs": 1161.48,
+      "max_lakhs": 1732.4
+    },
+    {
+      "range": "\u20b917.32Cr - \u20b923.03Cr",
+      "count": 50,
+      "min_lakhs": 1732.4,
+      "max_lakhs": 2303.32
+    },
+    {
+      "range": "\u20b923.03Cr - \u20b928.74Cr",
+      "count": 19,
+      "min_lakhs": 2303.32,
+      "max_lakhs": 2874.24
+    },
+    {
+      "range": "\u20b928.74Cr - \u20b934.45Cr",
+      "count": 8,
+      "min_lakhs": 2874.24,
+      "max_lakhs": 3445.16
+    },
+    {
+      "range": "\u20b934.45Cr - \u20b940.16Cr",
+      "count": 4,
+      "min_lakhs": 3445.16,
+      "max_lakhs": 4016.08
+    },
+    {
+      "range": "\u20b940.16Cr - \u20b945.87Cr",
+      "count": 1,
+      "min_lakhs": 4016.08,
+      "max_lakhs": 4587.0
+    }
+  ],
+  "metrics_comparison": [
+    {
+      "model": "Linear Regression",
+      "r2_score": 79.69,
+      "mae_lakhs": 122.38,
+      "rmse_lakhs": 211.88,
+      "mape": 59.63
+    },
+    {
+      "model": "Random Forest",
+      "r2_score": 92.82,
+      "mae_lakhs": 69.58,
+      "rmse_lakhs": 125.99,
+      "mape": 20.05
+    },
+    {
+      "model": "Gradient Boosting",
+      "r2_score": 96.14,
+      "mae_lakhs": 49.33,
+      "rmse_lakhs": 92.4,
+      "mape": 13.15
+    }
+  ]
+}
