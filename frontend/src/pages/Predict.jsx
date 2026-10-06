@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, AlertCircle, Building, MapPin, Layers, Award, Check, Copy, RefreshCw, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Calculator, AlertCircle, Building, MapPin, Layers, Award, Check, Copy, RefreshCw, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 import { predictPrice, fetchFeaturesSchema } from '../services/api';
 
 const DEFAULT_CITY_LOCALITIES = {
@@ -16,7 +16,7 @@ const DEFAULT_CITY_LOCALITIES = {
 export default function Predict({ prefillData, setActivePage }) {
   const [schema, setSchema] = useState(null);
 
-  // Form State initialized with realistic defaults matching exact dataset features
+  // Form State initialized with defaults
   const [formData, setFormData] = useState({
     City: "Mumbai",
     Locality: "Bandra West",
@@ -104,7 +104,7 @@ export default function Predict({ prefillData, setActivePage }) {
         }
       }, 100);
     } catch (err) {
-      setError(err.message || 'Failed to predict price. Make sure the Python backend is running.');
+      setError(err.message || 'Failed to predict price. Please check inputs.');
     } finally {
       setLoading(false);
     }
@@ -194,46 +194,53 @@ export default function Predict({ prefillData, setActivePage }) {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
-      {/* Header */}
-      <div className="text-center max-w-2xl mx-auto space-y-2">
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-white">
-          Property Value Estimator
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-300">
-          “Enter the property characteristics and let our machine-learning model estimate its market value.”
-        </p>
+      {/* Header Banner */}
+      <div className="p-6 sm:p-8 rounded-3xl real-estate-predict-bg border border-slate-800 shadow-2xl relative overflow-hidden text-center space-y-3">
+        <div className="absolute inset-0 blueprint-grid pointer-events-none opacity-20"></div>
+        <div className="relative z-10 space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-xs font-semibold text-blue-300">
+            <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+            <span>AI Valuation Engine</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+            Property Value Estimator
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+            “Enter the property characteristics and let our machine-learning model estimate its market value.”
+          </p>
 
-        {/* Quick Presets Bar */}
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-1.5 text-xs">
-          <span className="text-slate-400">Quick Test Scenarios:</span>
-          <button
-            type="button"
-            onClick={() => applyPreset('mumbai-luxury')}
-            className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
-          >
-            Mumbai Worli 4BHK
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPreset('delhi-penthouse')}
-            className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
-          >
-            Gurgaon Penthouse
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPreset('bangalore-villa')}
-            className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
-          >
-            Bangalore Villa
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPreset('pune-tech')}
-            className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
-          >
-            Pune 2BHK
-          </button>
+          {/* Quick Presets Bar */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
+            <span className="text-slate-300 font-medium">Quick Scenarios:</span>
+            <button
+              type="button"
+              onClick={() => applyPreset('mumbai-luxury')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Mumbai Worli 4BHK
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('delhi-penthouse')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Gurgaon Penthouse
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('bangalore-villa')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Bangalore Villa
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('pune-tech')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Pune 2BHK
+            </button>
+          </div>
         </div>
       </div>
 
@@ -242,7 +249,7 @@ export default function Predict({ prefillData, setActivePage }) {
         
         {/* Form Column (7 cols) */}
         <div className="lg:col-span-7">
-          <form onSubmit={handlePredict} className="p-5 sm:p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
+          <form onSubmit={handlePredict} className="p-5 sm:p-7 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-md space-y-6">
             
             {/* Section 1: Property Location & Format */}
             <div className="space-y-3">
@@ -255,13 +262,13 @@ export default function Predict({ prefillData, setActivePage }) {
                 
                 {/* City */}
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">
+                  <label className="text-xs text-slate-300 font-medium">
                     City <span className="text-blue-400">*</span>
                   </label>
                   <select
                     value={formData.City}
                     onChange={(e) => handleCityChange(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                     required
                   >
                     {citiesList.map((c) => (
@@ -272,13 +279,13 @@ export default function Predict({ prefillData, setActivePage }) {
 
                 {/* Locality */}
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">
+                  <label className="text-xs text-slate-300 font-medium">
                     Locality / Micro-Market <span className="text-blue-400">*</span>
                   </label>
                   <select
                     value={formData.Locality}
                     onChange={(e) => handleChange('Locality', e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                     required
                   >
                     {availableLocalities.map((loc) => (
@@ -289,11 +296,11 @@ export default function Predict({ prefillData, setActivePage }) {
 
                 {/* Property Type */}
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Property Type</label>
+                  <label className="text-xs text-slate-300 font-medium">Property Type</label>
                   <select
                     value={formData.Property_Type}
                     onChange={(e) => handleChange('Property_Type', e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
                     <option value="Apartment">Apartment</option>
                     <option value="Villa">Villa</option>
@@ -305,11 +312,11 @@ export default function Predict({ prefillData, setActivePage }) {
 
                 {/* Furnishing Status */}
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Furnishing</label>
+                  <label className="text-xs text-slate-300 font-medium">Furnishing</label>
                   <select
                     value={formData.Furnishing_Status}
                     onChange={(e) => handleChange('Furnishing_Status', e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
                     <option value="Furnished">Furnished</option>
                     <option value="Semi-Furnished">Semi-Furnished</option>
@@ -332,8 +339,8 @@ export default function Predict({ prefillData, setActivePage }) {
                 {/* Built-up / Area */}
                 <div className="sm:col-span-3 space-y-1.5">
                   <div className="flex justify-between items-center text-xs">
-                    <label className="text-slate-300">Built-Up Area</label>
-                    <span className="font-mono text-blue-400 font-bold">
+                    <label className="text-slate-300 font-medium">Built-Up Area</label>
+                    <span className="font-mono text-blue-400 font-bold text-sm">
                       {formData.Area_SqFt.toLocaleString()} sq.ft
                     </span>
                   </div>
@@ -344,9 +351,9 @@ export default function Predict({ prefillData, setActivePage }) {
                     step="25"
                     value={formData.Area_SqFt}
                     onChange={(e) => handleChange('Area_SqFt', Number(e.target.value))}
-                    className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                    className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
                   />
-                  <div className="flex justify-between text-[10px] text-slate-400">
+                  <div className="flex justify-between text-[11px] text-slate-400">
                     <span>350 sq.ft</span>
                     <span>2,500 sq.ft</span>
                     <span>5,500 sq.ft</span>
@@ -355,11 +362,11 @@ export default function Predict({ prefillData, setActivePage }) {
 
                 {/* BHK */}
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Bedrooms (BHK)</label>
+                  <label className="text-xs text-slate-300 font-medium">Bedrooms (BHK)</label>
                   <select
                     value={formData.BHK}
                     onChange={(e) => handleChange('BHK', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
                     {[1, 2, 3, 4, 5, 6].map(n => (
                       <option key={n} value={n}>{n} BHK</option>
@@ -369,11 +376,11 @@ export default function Predict({ prefillData, setActivePage }) {
 
                 {/* Bathrooms */}
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Bathrooms</label>
+                  <label className="text-xs text-slate-300 font-medium">Bathrooms</label>
                   <select
                     value={formData.Bathrooms}
                     onChange={(e) => handleChange('Bathrooms', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
                     {[1, 2, 3, 4, 5, 6].map(n => (
                       <option key={n} value={n}>{n} Bath</option>
@@ -383,13 +390,13 @@ export default function Predict({ prefillData, setActivePage }) {
 
                 {/* Gated Community */}
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Gated Society</label>
+                  <label className="text-xs text-slate-300 font-medium">Gated Society</label>
                   <select
                     value={formData.Gated_Community}
                     onChange={(e) => handleChange('Gated_Community', e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
-                    <option value="Yes">Yes (Gated)</option>
+                    <option value="Yes">Yes (Gated Society)</option>
                     <option value="No">No (Standalone)</option>
                   </select>
                 </div>
@@ -407,47 +414,47 @@ export default function Predict({ prefillData, setActivePage }) {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Floor No</label>
+                  <label className="text-xs text-slate-300 font-medium">Floor No</label>
                   <input
                     type="number"
                     min="0"
                     max="45"
                     value={formData.Floor_No}
                     onChange={(e) => handleChange('Floor_No', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Total Floors</label>
+                  <label className="text-xs text-slate-300 font-medium">Total Floors</label>
                   <input
                     type="number"
                     min="1"
                     max="50"
                     value={formData.Total_Floors}
                     onChange={(e) => handleChange('Total_Floors', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Age (Years)</label>
+                  <label className="text-xs text-slate-300 font-medium">Age (Years)</label>
                   <input
                     type="number"
                     min="0"
                     max="30"
                     value={formData.Property_Age}
                     onChange={(e) => handleChange('Property_Age', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">Parking Slots</label>
+                  <label className="text-xs text-slate-300 font-medium">Parking Slots</label>
                   <select
                     value={formData.Parking_Spaces}
                     onChange={(e) => handleChange('Parking_Spaces', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
                     {[0, 1, 2, 3].map(n => (
                       <option key={n} value={n}>{n} Car Slot{n === 1 ? '' : 's'}</option>
@@ -467,13 +474,13 @@ export default function Predict({ prefillData, setActivePage }) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">
+                  <label className="text-xs text-slate-300 font-medium">
                     Amenities Score (1 - 10)
                   </label>
                   <select
                     value={formData.Amenities_Score}
                     onChange={(e) => handleChange('Amenities_Score', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
                     <option value="10">10 / 10 (Full Luxury Club & Pool)</option>
                     <option value="8">8 / 10 (Gated Club House & Gym)</option>
@@ -483,7 +490,7 @@ export default function Predict({ prefillData, setActivePage }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs text-slate-300">
+                  <label className="text-xs text-slate-300 font-medium">
                     Distance to Metro Station (km)
                   </label>
                   <input
@@ -493,7 +500,7 @@ export default function Predict({ prefillData, setActivePage }) {
                     max="15.0"
                     value={formData.Metro_Distance_KM}
                     onChange={(e) => handleChange('Metro_Distance_KM', Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -511,7 +518,7 @@ export default function Predict({ prefillData, setActivePage }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <>
@@ -521,6 +528,7 @@ export default function Predict({ prefillData, setActivePage }) {
               ) : (
                 <>
                   <span>Predict Property Value</span>
+                  <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </button>
@@ -532,7 +540,7 @@ export default function Predict({ prefillData, setActivePage }) {
         <div className="lg:col-span-5" id="prediction-result-card">
           
           {result ? (
-            <div className="p-5 sm:p-6 rounded-2xl bg-slate-900 border border-blue-500/40 shadow-lg space-y-5">
+            <div className="p-5 sm:p-7 rounded-2xl bg-slate-900/95 border border-blue-500/50 shadow-2xl backdrop-blur-xl space-y-5">
               
               {/* Header */}
               <div className="flex items-center justify-between">
@@ -556,8 +564,8 @@ export default function Predict({ prefillData, setActivePage }) {
                 <div className="text-3xl sm:text-4xl font-black text-white">
                   {result.predicted_price_formatted}
                 </div>
-                <div className="text-xs text-slate-400 font-mono">
-                  Exact: <span className="text-slate-200">{result.price_inr_formatted}</span> ({result.predicted_price_lakhs} Lakhs)
+                <div className="text-xs text-slate-300 font-mono">
+                  Exact: <span className="text-white font-bold">{result.price_inr_formatted}</span> ({result.predicted_price_lakhs} Lakhs)
                 </div>
               </div>
 
@@ -577,7 +585,7 @@ export default function Predict({ prefillData, setActivePage }) {
                 </div>
               </div>
 
-              {/* Model Accuracy & Test Error Note (No fake confidence interval) */}
+              {/* Model Accuracy & Test Error Note */}
               <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5 text-xs text-slate-300">
                 <div className="flex items-center justify-between font-semibold">
                   <span className="flex items-center gap-1.5">
@@ -633,7 +641,7 @@ export default function Predict({ prefillData, setActivePage }) {
             </div>
           ) : (
             /* Blank state */
-            <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-3">
+            <div className="p-8 rounded-2xl bg-slate-900/90 border border-slate-800 text-center space-y-3 shadow-lg">
               <div className="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-400 flex items-center justify-center mx-auto">
                 <Calculator className="w-6 h-6" />
               </div>

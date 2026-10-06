@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, ArrowRight, Building2, Sliders, ChevronRight } from 'lucide-react';
+import { Sparkles, ArrowRight, Building2, Sliders, ChevronRight, ShieldCheck, MapPin, CheckCircle2 } from 'lucide-react';
 import PropertyCard from '../components/PropertyCard';
 import { SAMPLE_PROPERTIES } from '../data/sampleProperties';
 
@@ -54,24 +54,28 @@ export default function Home({ setActivePage, setPrefillData }) {
   return (
     <div className="space-y-20 pb-16">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-12 sm:pt-16 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto space-y-5">
+      {/* 1. CINEMATIC REAL ESTATE HERO SECTION */}
+      <section className="relative pt-16 sm:pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto real-estate-hero-bg rounded-3xl border border-slate-800/80 shadow-2xl mt-4 overflow-hidden">
+        
+        {/* Architectural grid overlay */}
+        <div className="absolute inset-0 blueprint-grid pointer-events-none opacity-40"></div>
+
+        <div className="relative z-10 text-center max-w-3xl mx-auto space-y-6">
           
           {/* Subtitle Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold text-blue-400">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-xs font-semibold text-blue-300 backdrop-blur-md shadow-md">
+            <Sparkles className="w-3.5 h-3.5 text-blue-400" />
             <span>AI Real Estate Valuation for Indian Cities</span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight drop-shadow-md">
             KNOW THE VALUE <br />
             <span className="text-blue-500">BEFORE YOU BUY.</span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto leading-relaxed drop-shadow">
             AI-powered property valuation for India's urban real-estate market. Estimate property market values from location, super built-up area, layout, quality, and transit connectivity.
           </p>
 
@@ -79,7 +83,7 @@ export default function Home({ setActivePage, setPrefillData }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <button
               onClick={() => setActivePage('predict')}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors shadow-sm"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98]"
             >
               <span>Predict Property Price</span>
               <ArrowRight className="w-4 h-4" />
@@ -87,7 +91,7 @@ export default function Home({ setActivePage, setPrefillData }) {
 
             <button
               onClick={() => setActivePage('properties')}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold text-sm border border-slate-800 transition-colors"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800/90 text-slate-100 font-semibold text-sm border border-slate-700/80 backdrop-blur-md transition-all"
             >
               <Building2 className="w-4 h-4 text-blue-400" />
               <span>Explore Properties</span>
@@ -95,40 +99,45 @@ export default function Home({ setActivePage, setPrefillData }) {
           </div>
 
           {/* Metrics Summary Strip */}
-          <div className="pt-4 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
-            <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400">Validation R²</div>
-              <div className="text-base font-bold text-emerald-400 font-mono">0.9614</div>
+          <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
+              <div className="text-xs text-slate-400 font-medium">Validation Accuracy</div>
+              <div className="text-lg font-bold text-emerald-400 font-mono">R² 0.9614</div>
             </div>
-            <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400">Winning Algorithm</div>
-              <div className="text-base font-bold text-blue-400">Gradient Boosting</div>
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
+              <div className="text-xs text-slate-400 font-medium">Winning Model</div>
+              <div className="text-base font-bold text-blue-400 truncate">Gradient Boosting</div>
             </div>
-            <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400">Dataset Records</div>
-              <div className="text-base font-bold text-white font-mono">4,000 Verified</div>
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
+              <div className="text-xs text-slate-400 font-medium">Dataset Records</div>
+              <div className="text-lg font-bold text-white font-mono">4,000 Verified</div>
             </div>
-            <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400">Indian Metros</div>
-              <div className="text-base font-bold text-white font-mono">8 Cities</div>
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
+              <div className="text-xs text-slate-400 font-medium">Major Metros</div>
+              <div className="text-lg font-bold text-white font-mono">8 Metros</div>
             </div>
           </div>
 
         </div>
 
-        {/* 2. QUICK PREDICTION CARD */}
-        <div className="mt-10 max-w-4xl mx-auto">
-          <div className="p-5 sm:p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-lg">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-800">
-              <Sliders className="w-4 h-4 text-blue-400" />
-              <h3 className="font-semibold text-sm text-white">Quick Property Estimate</h3>
+        {/* 2. QUICK PREDICTION FLOATING CARD */}
+        <div className="mt-12 max-w-4xl mx-auto relative z-10">
+          <div className="p-5 sm:p-7 rounded-2xl bg-slate-900/90 border border-slate-700/80 shadow-2xl backdrop-blur-xl">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2 text-white font-semibold text-sm">
+                <Sliders className="w-4 h-4 text-blue-400" />
+                <span>Quick Property Valuation</span>
+              </div>
+              <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                Live ML Inference
+              </span>
             </div>
 
             <form onSubmit={handleQuickEstimate} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
               
               {/* City */}
               <div className="space-y-1">
-                <label className="text-xs text-slate-400">City</label>
+                <label className="text-xs text-slate-300 font-medium">City</label>
                 <select
                   value={quickCity}
                   onChange={(e) => {
@@ -158,7 +167,7 @@ export default function Home({ setActivePage, setPrefillData }) {
 
               {/* BHK */}
               <div className="space-y-1">
-                <label className="text-xs text-slate-400">Bedrooms</label>
+                <label className="text-xs text-slate-300 font-medium">Bedrooms</label>
                 <select
                   value={quickBhk}
                   onChange={(e) => setQuickBhk(e.target.value)}
@@ -174,7 +183,7 @@ export default function Home({ setActivePage, setPrefillData }) {
 
               {/* Property Type */}
               <div className="space-y-1">
-                <label className="text-xs text-slate-400">Property Type</label>
+                <label className="text-xs text-slate-300 font-medium">Property Type</label>
                 <select
                   value={quickType}
                   onChange={(e) => setQuickType(e.target.value)}
@@ -190,7 +199,7 @@ export default function Home({ setActivePage, setPrefillData }) {
 
               {/* Built-up Area */}
               <div className="space-y-1">
-                <label className="text-xs text-slate-400">Area (sq.ft)</label>
+                <label className="text-xs text-slate-300 font-medium">Area (sq.ft)</label>
                 <input
                   type="number"
                   min="300"
@@ -207,7 +216,7 @@ export default function Home({ setActivePage, setPrefillData }) {
               <div className="flex items-end">
                 <button
                   type="submit"
-                  className="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5"
+                  className="w-full py-2.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
                 >
                   <span>Estimate Price</span>
                   <ArrowRight className="w-3.5 h-3.5" />

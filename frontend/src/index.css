@@ -3,8 +3,15 @@
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #0b1120;
-    color: #e2e8f0;
+    background-color: #070b14;
+    color: #f1f5f9;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.3) 0px, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
   }
 
   h1, h2, h3 {
@@ -17,15 +24,41 @@
   }
 }
 
-/* Clean, simplified panel and card styles */
-.card-simple {
-  background-color: #131d31;
-  border: 1px solid #1e293b;
-  border-radius: 1rem;
+/* Luxury real estate backdrop styling */
+.real-estate-hero-bg {
+  background-image: 
+    linear-gradient(to bottom, rgba(7, 11, 20, 0.75) 0%, rgba(7, 11, 20, 0.88) 60%, #070b14 100%),
+    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85');
+  background-size: cover;
+  background-position: center 35%;
+  background-repeat: no-repeat;
 }
 
-.card-simple:hover {
-  border-color: #334155;
+.real-estate-predict-bg {
+  background-image: 
+    linear-gradient(to bottom, rgba(7, 11, 20, 0.88) 0%, rgba(7, 11, 20, 0.95) 100%),
+    url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.real-estate-card-bg {
+  background: rgba(13, 20, 36, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.real-estate-card-bg:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(59, 130, 246, 0.1);
+}
+
+.blueprint-grid {
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Custom subtle scrollbar */
@@ -34,7 +67,7 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b1120;
+  background: #070b14;
 }
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
