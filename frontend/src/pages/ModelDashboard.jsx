@@ -40,9 +40,9 @@ export default function ModelDashboard({ setActivePage }) {
   }, []);
 
   const fallbackModels = {
-    "Linear Regression": { MAE: 122.38, RMSE: 211.88, R2: 0.7969, MAPE: 59.63 },
-    "Random Forest": { MAE: 69.58, RMSE: 125.99, R2: 0.9282, MAPE: 20.05 },
-    "Gradient Boosting": { MAE: 49.33, RMSE: 92.40, R2: 0.9614, MAPE: 13.15 }
+    "Linear Regression": { MAE: 104.26, RMSE: 194.95, R2: 0.7256, MAPE: 83.89 },
+    "Random Forest": { MAE: 62.32, RMSE: 136.61, R2: 0.8652, MAPE: 24.13 },
+    "Gradient Boosting": { MAE: 38.91, RMSE: 84.72, R2: 0.9482, MAPE: 14.53 }
   };
 
   const modelsData = modelInfo?.models_performance || fallbackModels;
@@ -51,28 +51,28 @@ export default function ModelDashboard({ setActivePage }) {
     {
       name: "Linear Regression (Baseline)",
       algorithm: "Ordinary Least Squares",
-      mae: `₹${(modelsData["Linear Regression"]?.MAE || 122.38).toFixed(2)} L`,
-      rmse: `₹${(modelsData["Linear Regression"]?.RMSE || 211.88).toFixed(2)} L`,
-      r2: (modelsData["Linear Regression"]?.R2 || 0.7969).toFixed(4),
-      mape: `${(modelsData["Linear Regression"]?.MAPE || 59.63).toFixed(1)}%`,
+      mae: `₹${(modelsData["Linear Regression"]?.MAE || 104.26).toFixed(2)} L`,
+      rmse: `₹${(modelsData["Linear Regression"]?.RMSE || 194.95).toFixed(2)} L`,
+      r2: (modelsData["Linear Regression"]?.R2 || 0.7256).toFixed(4),
+      mape: `${(modelsData["Linear Regression"]?.MAPE || 83.89).toFixed(1)}%`,
       status: "Baseline"
     },
     {
       name: "Random Forest Regressor",
       algorithm: "Bagging Ensemble (120 Trees)",
-      mae: `₹${(modelsData["Random Forest"]?.MAE || 69.58).toFixed(2)} L`,
-      rmse: `₹${(modelsData["Random Forest"]?.RMSE || 125.99).toFixed(2)} L`,
-      r2: (modelsData["Random Forest"]?.R2 || 0.9282).toFixed(4),
-      mape: `${(modelsData["Random Forest"]?.MAPE || 20.05).toFixed(1)}%`,
+      mae: `₹${(modelsData["Random Forest"]?.MAE || 62.32).toFixed(2)} L`,
+      rmse: `₹${(modelsData["Random Forest"]?.RMSE || 136.61).toFixed(2)} L`,
+      r2: (modelsData["Random Forest"]?.R2 || 0.8652).toFixed(4),
+      mape: `${(modelsData["Random Forest"]?.MAPE || 24.13).toFixed(1)}%`,
       status: "Strong Fit"
     },
     {
       name: "Gradient Boosting Regressor",
       algorithm: "Sequential Boosting Trees",
-      mae: `₹${(modelsData["Gradient Boosting"]?.MAE || 49.33).toFixed(2)} L`,
-      rmse: `₹${(modelsData["Gradient Boosting"]?.RMSE || 92.40).toFixed(2)} L`,
-      r2: (modelsData["Gradient Boosting"]?.R2 || 0.9614).toFixed(4),
-      mape: `${(modelsData["Gradient Boosting"]?.MAPE || 13.15).toFixed(1)}%`,
+      mae: `₹${(modelsData["Gradient Boosting"]?.MAE || 38.91).toFixed(2)} L`,
+      rmse: `₹${(modelsData["Gradient Boosting"]?.RMSE || 84.72).toFixed(2)} L`,
+      r2: (modelsData["Gradient Boosting"]?.R2 || 0.9482).toFixed(4),
+      mape: `${(modelsData["Gradient Boosting"]?.MAPE || 14.53).toFixed(1)}%`,
       status: "Production Model"
     }
   ];
@@ -130,7 +130,7 @@ export default function ModelDashboard({ setActivePage }) {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <StatCounter
           label="Total Records"
-          value={modelInfo?.total_records ? modelInfo.total_records.toLocaleString() : "4,000"}
+          value={modelInfo?.total_records ? modelInfo.total_records.toLocaleString() : "5,000"}
           subtext="80/20 Train-Test Split"
           highlight={false}
         />
@@ -142,14 +142,14 @@ export default function ModelDashboard({ setActivePage }) {
         />
         <StatCounter
           label="Validation R²"
-          value="0.9614"
+          value="0.9482"
           subtext="Test Set Generalization"
           highlight={true}
         />
         <StatCounter
           label="Best Algorithm"
           value="Gradient Boosting"
-          subtext="Lowest MAE (49.33 L)"
+          subtext="Lowest MAE (38.91 L)"
           highlight={true}
         />
       </div>
@@ -179,7 +179,7 @@ export default function ModelDashboard({ setActivePage }) {
           <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
             <div className="text-blue-400 font-bold text-xs">01</div>
             <h4 className="font-semibold text-xs text-white">Indian Dataset</h4>
-            <p className="text-[11px] text-slate-400">4,000 property records across 8 major Indian metros.</p>
+            <p className="text-[11px] text-slate-400">5,000 property records across 8 major Indian metros.</p>
           </div>
 
           <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
@@ -197,13 +197,13 @@ export default function ModelDashboard({ setActivePage }) {
           <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
             <div className="text-blue-400 font-bold text-xs">04</div>
             <h4 className="font-semibold text-xs text-white">Model Training</h4>
-            <p className="text-[11px] text-slate-400">Linear, Random Forest, & Gradient Boosting on 3,200 rows.</p>
+            <p className="text-[11px] text-slate-400">Linear, Random Forest, & Gradient Boosting on 4,000 rows.</p>
           </div>
 
           <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
             <div className="text-blue-400 font-bold text-xs">05</div>
             <h4 className="font-semibold text-xs text-white">Test Evaluation</h4>
-            <p className="text-[11px] text-slate-400">Strictly tested on 800 unseen holdout samples.</p>
+            <p className="text-[11px] text-slate-400">Strictly tested on 1,000 unseen holdout samples.</p>
           </div>
 
           <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">

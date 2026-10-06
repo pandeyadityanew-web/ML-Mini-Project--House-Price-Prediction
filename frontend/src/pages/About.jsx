@@ -50,7 +50,7 @@ export default function About({ setActivePage }) {
         </div>
         <h3 className="text-base font-bold text-white">Indian Urban House Price Dataset</h3>
         <p className="text-xs text-slate-300 leading-relaxed">
-          The model is trained on a structured dataset of <strong>4,000 property records</strong> across 8 major Indian metropolitan areas and 26 micro-market localities. All features were audited for target leakage (dropping derived variables like <code className="text-blue-400">Price_per_SqFt</code>). The continuous target variable is <strong>Price_INR_Lakhs</strong>.
+          The model is trained on a structured dataset of <strong>5,000 property records</strong> across 8 major Indian metropolitan areas and 60+ micro-market localities. All features were audited for target leakage (dropping derived variables like <code className="text-blue-400">Price_per_SqFt</code>). The continuous target variable is <strong>Price_INR_Lakhs</strong>.
         </p>
       </div>
 

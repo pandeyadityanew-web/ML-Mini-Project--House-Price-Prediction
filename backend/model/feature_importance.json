@@ -1,54 +1,62 @@
 [
   {
-    "feature": "Built-Up Area (Sq.Ft)",
-    "importance": 45.82
+    "feature": "Area_SqFt",
+    "importance": 46.89
   },
   {
-    "feature": "Micro-Market Locality",
-    "importance": 35.86
+    "feature": "Locality_Worli",
+    "importance": 10.36
   },
   {
-    "feature": "City & Metro Hub",
-    "importance": 8.74
+    "feature": "Locality_Bandra West",
+    "importance": 9.15
   },
   {
-    "feature": "Property Type",
-    "importance": 5.07
+    "feature": "City_Mumbai",
+    "importance": 6.92
   },
   {
-    "feature": "Floor Level & Height",
-    "importance": 1.75
+    "feature": "Locality_Gurgaon Golf Course Rd",
+    "importance": 3.15
   },
   {
-    "feature": "Property Age",
-    "importance": 0.63
+    "feature": "Property_Type_Penthouse",
+    "importance": 2.66
   },
   {
-    "feature": "Parking Spaces",
-    "importance": 0.53
-  },
-  {
-    "feature": "Furnishing Status",
-    "importance": 0.43
+    "feature": "Locality_Dadar",
+    "importance": 2.09
   },
   {
     "feature": "Bathrooms",
-    "importance": 0.38
+    "importance": 1.51
   },
   {
-    "feature": "Metro Proximity",
-    "importance": 0.32
+    "feature": "Locality_South Extension",
+    "importance": 1.49
   },
   {
-    "feature": "Amenities Score",
-    "importance": 0.28
+    "feature": "Locality_Bandra East",
+    "importance": 1.05
   },
   {
-    "feature": "BHK Layout",
-    "importance": 0.18
+    "feature": "Metro_Distance_KM",
+    "importance": 1.02
   },
   {
-    "feature": "Gated Community",
-    "importance": 0.01
+    "feature": "BHK",
+    "importance": 0.99
+  },
+  {
+    "feature": "Amenities_Score",
+    "importance": 0.96
+  },
+  {
+    "feature": "Property_Type_Villa",
+    "importance": 0.91
+  },
+  {
+    "feature": "Total_Floors",
+    "importance": 0.88
   }
 ]

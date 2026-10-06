@@ -27,14 +27,13 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 
 CSV_PATH = os.path.join(DATA_DIR, 'indian_house_prices.csv')
 
-# Expanded city and locality baseline rates (INR per sq.ft)
-# Encompasses budget (₹4,500/sqft), mid-range (₹8,000-16,000/sqft), and prime luxury (₹20,000-48,000/sqft)
+# City and Locality baseline rates (INR per sq.ft)
 CITY_LOCALITIES = {
     "Mumbai": {
         "Kandivali West": 14500,
         "Kandivali East": 13800,
         "Thane West": 10500,
-        "Thane (Ghubunder Rd)": 8800,
+        "Thane (Ghodbunder Rd)": 8800,
         "Bandra West": 42000,
         "Bandra East": 28000,
         "Borivali West": 15500,
@@ -99,7 +98,7 @@ CITY_LOCALITIES = {
         "Kothrud": 12500,
         "Viman Nagar": 11500,
         "Koregaon Park": 16000,
-        "Bavdhan": 7200
+        "Kalyani Nagar": 14000
     },
     "Hyderabad": {
         "Miyapur": 5200,
@@ -109,11 +108,9 @@ CITY_LOCALITIES = {
         "HITEC City": 12000,
         "Madhapur": 11500,
         "Banjara Hills": 22000,
-        "Jubilee Hills": 24000,
-        "Manikonda": 6500
+        "Jubilee Hills": 24000
     },
     "Chennai": {
-        "Guduvanchery": 4200,
         "Tambaram": 5800,
         "Porur": 6800,
         "OMR IT Corridor": 7200,
@@ -126,7 +123,6 @@ CITY_LOCALITIES = {
         "Rajarhat": 4800,
         "New Town": 6200,
         "Behala": 4500,
-        "Garia": 4900,
         "Salt Lake Sector V": 8500,
         "Ballygunge": 15000,
         "Park Street": 16500
@@ -135,22 +131,22 @@ CITY_LOCALITIES = {
 
 PROPERTY_TYPE_FACTORS = {
     "Apartment": 1.0,
-    "Independent House": 1.12,
+    "Independent House": 1.15,
     "Villa": 1.35,
     "Penthouse": 1.45,
-    "Studio": 0.88,
+    "Studio": 0.90,
 }
 
 FURNISHING_FACTORS = {
-    "Furnished": 1.08,
-    "Semi-Furnished": 1.03,
+    "Furnished": 1.12,
+    "Semi-Furnished": 1.05,
     "Unfurnished": 1.0,
 }
 
 def generate_indian_housing_dataset(n_samples=5000, random_state=42):
     """
     Generates an authentic Indian urban housing dataset covering budget, mid-segment, and luxury homes.
-    Includes target leakage column 'Price_per_SqFt' to demonstrate leakage audit and drop.
+    Each feature (BHK, Bathrooms, Area, Amenities, Parking, Furnishing, Transit, Age) directly and dynamically impacts property price.
     """
     np.random.seed(random_state)
     cities = list(CITY_LOCALITIES.keys())
@@ -175,7 +171,7 @@ def generate_indian_housing_dataset(n_samples=5000, random_state=42):
 
         if ptype == "Studio":
             bhk = 1
-            area = int(np.random.normal(420, 60))
+            area = int(np.random.normal(450, 50))
             area = max(280, min(650, area))
             bathrooms = 1
             total_floors = np.random.randint(4, 25)
@@ -184,7 +180,7 @@ def generate_indian_housing_dataset(n_samples=5000, random_state=42):
             parking = np.random.choice([0, 1], p=[0.75, 0.25])
         elif ptype == "Penthouse":
             bhk = np.random.choice([3, 4, 5, 6], p=[0.25, 0.45, 0.20, 0.10])
-            area = int(np.random.normal(bhk * 700 + 450, 280))
+            area = int(np.random.normal(bhk * 650 + 400, 250))
             area = max(2000, min(5500, area))
             bathrooms = bhk + np.random.choice([0, 1], p=[0.5, 0.5])
             total_floors = np.random.randint(18, 45)
@@ -193,7 +189,7 @@ def generate_indian_housing_dataset(n_samples=5000, random_state=42):
             parking = np.random.choice([2, 3], p=[0.4, 0.6])
         elif ptype in ["Villa", "Independent House"]:
             bhk = np.random.choice([2, 3, 4, 5], p=[0.15, 0.45, 0.30, 0.10])
-            area = int(np.random.normal(bhk * 550 + 300, 220))
+            area = int(np.random.normal(bhk * 550 + 300, 200))
             area = max(1100, min(4500, area))
             bathrooms = bhk if np.random.rand() > 0.3 else bhk - 1
             total_floors = np.random.choice([1, 2, 3], p=[0.30, 0.55, 0.15])
@@ -201,68 +197,82 @@ def generate_indian_housing_dataset(n_samples=5000, random_state=42):
             gated = np.random.choice(["Yes", "No"], p=[0.75, 0.25])
             parking = np.random.choice([1, 2, 3], p=[0.35, 0.45, 0.20])
         else: # Standard Apartment (1BHK, 2BHK, 3BHK, 4BHK)
-            bhk = np.random.choice([1, 2, 3, 4], p=[0.28, 0.44, 0.24, 0.04])
+            bhk = np.random.choice([1, 2, 3, 4, 5], p=[0.24, 0.42, 0.24, 0.08, 0.02])
             if bhk == 1:
                 area = int(np.random.normal(550, 60))
-                area = max(380, min(750, area))
+                area = max(380, min(800, area))
                 bathrooms = 1
             elif bhk == 2:
-                area = int(np.random.normal(920, 90))
-                area = max(650, min(1250, area))
+                area = int(np.random.normal(950, 90))
+                area = max(650, min(1350, area))
                 bathrooms = 2
             elif bhk == 3:
-                area = int(np.random.normal(1420, 140))
-                area = max(1150, min(2100, area))
+                area = int(np.random.normal(1450, 140))
+                area = max(1150, min(2200, area))
                 bathrooms = np.random.choice([2, 3], p=[0.35, 0.65])
-            else:
-                area = int(np.random.normal(2100, 220))
-                area = max(1800, min(3200, area))
+            elif bhk == 4:
+                area = int(np.random.normal(2150, 200))
+                area = max(1750, min(3200, area))
                 bathrooms = np.random.choice([3, 4], p=[0.3, 0.7])
+            else:
+                area = int(np.random.normal(3000, 300))
+                area = max(2400, min(4500, area))
+                bathrooms = np.random.choice([4, 5], p=[0.3, 0.7])
 
-            total_floors = np.random.randint(4, 30)
+            total_floors = np.random.randint(4, 32)
             floor_no = np.random.randint(1, total_floors + 1)
             gated = np.random.choice(["Yes", "No"], p=[0.85, 0.15])
-            parking = np.random.choice([0, 1, 2], p=[0.22, 0.65, 0.13])
+            parking = np.random.choice([0, 1, 2, 3], p=[0.15, 0.60, 0.20, 0.05])
 
-        prop_age = int(np.random.exponential(scale=4.5))
+        prop_age = int(np.random.exponential(scale=4.0))
         prop_age = min(30, prop_age)
 
-        overall_quality = int(np.random.normal(7.0, 1.3))
-        overall_quality = max(1, min(10, overall_quality))
-
-        amenities_score = int(np.random.normal(6.8, 1.8))
-        amenities_score = max(1, min(10, amenities_score))
-
-        metro_dist = round(float(np.random.exponential(scale=2.2) + 0.3), 1)
+        amenities_score = int(np.random.choice([3, 4, 5, 6, 7, 8, 9, 10], p=[0.05, 0.10, 0.15, 0.20, 0.20, 0.15, 0.10, 0.05]))
+        metro_dist = round(float(np.random.exponential(scale=2.0) + 0.3), 1)
         metro_dist = min(15.0, metro_dist)
 
         # Economic rate modifiers
         type_mult = PROPERTY_TYPE_FACTORS[ptype]
         furnish_mult = FURNISHING_FACTORS[furnish]
-        quality_factor = 1.0 + (overall_quality - 6.5) * 0.05
-        age_depreciation = max(0.72, 1.0 - (prop_age * 0.011))
-        amenities_factor = 1.0 + (amenities_score - 5.0) * 0.02
-        metro_factor = 1.04 - (metro_dist * 0.005)
-        gated_factor = 1.03 if gated == "Yes" else 0.97
+        
+        # Direct BHK and bathroom layout premium (extra rooms require additional interior partitioning and design value)
+        bhk_factor = 1.0 + (bhk - 2) * 0.08
+        bath_factor = 1.0 + (bathrooms - 2) * 0.04
+        
+        # Amenities premium (Score 10 gives +20%, Score 2 gives -12%)
+        amenities_factor = 1.0 + (amenities_score - 5.0) * 0.04
+        
+        # Parking factor (+3.5% per parking slot)
+        parking_factor = 1.0 + (parking * 0.035)
+        
+        # Age depreciation (-1% per year)
+        age_depreciation = max(0.70, 1.0 - (prop_age * 0.010))
+        
+        # Metro accessibility factor
+        metro_factor = max(0.85, 1.04 - (metro_dist * 0.015))
+        
+        # Gated society factor (+6%)
+        gated_factor = 1.06 if gated == "Yes" else 0.96
 
-        if total_floors > 10 and floor_no > 10:
-            floor_factor = 1.0 + min(0.05, (floor_no / total_floors) * 0.05)
+        # Floor level factor (higher floors in towers command view premium)
+        if total_floors > 8 and floor_no > 5:
+            floor_factor = 1.0 + min(0.08, (floor_no / total_floors) * 0.06)
         else:
             floor_factor = 1.0
 
         effective_rate_sqft = (
-            base_rate * type_mult * furnish_mult * quality_factor * 
-            age_depreciation * amenities_factor * metro_factor * 
-            gated_factor * floor_factor
+            base_rate * type_mult * furnish_mult * bhk_factor * bath_factor *
+            amenities_factor * parking_factor * age_depreciation * 
+            metro_factor * gated_factor * floor_factor
         )
 
         raw_price_inr = effective_rate_sqft * area
-        noise = np.random.normal(1.0, 0.035)
+        noise = np.random.normal(1.0, 0.02)
         final_price_inr = raw_price_inr * noise
 
         # Target variable in Lakhs
         price_lakhs = round((final_price_inr / 100000.0), 2)
-        price_lakhs = max(12.0, price_lakhs)
+        price_lakhs = max(15.0, price_lakhs)
 
         # Target leakage feature for audit
         price_per_sqft_leak = round((price_lakhs * 100000.0) / area, 2)
@@ -340,179 +350,145 @@ def train_and_evaluate():
         "Linear Regression": LinearRegression(),
         "Random Forest": RandomForestRegressor(
             n_estimators=120,
-            max_depth=15,
+            max_depth=16,
             min_samples_split=4,
             min_samples_leaf=2,
             random_state=42,
             n_jobs=1
         ),
         "Gradient Boosting": GradientBoostingRegressor(
-            n_estimators=160,
+            n_estimators=180,
             learning_rate=0.08,
-            max_depth=5,
+            max_depth=6,
             subsample=0.85,
             random_state=42
         )
     }
 
-    results = {}
+    metrics = {}
     fitted_pipelines = {}
 
+    print("\n--- Training & Evaluating Models on 20% Holdout Test Set ---")
     for name, model in models.items():
-        pipeline = Pipeline(steps=[
+        pipeline = Pipeline([
             ('preprocessor', preprocessor),
             ('regressor', model)
         ])
-        pipeline.fit(X_train, y_train)
-        fitted_pipelines[name] = pipeline
 
-        # Strict test evaluation
+        pipeline.fit(X_train, y_train)
         y_pred = pipeline.predict(X_test)
+
         mae = float(mean_absolute_error(y_test, y_pred))
         rmse = float(np.sqrt(mean_squared_error(y_test, y_pred)))
         r2 = float(r2_score(y_test, y_pred))
-        mape = float(np.mean(np.abs((y_test - y_pred) / y_test)) * 100)
+        mape = float(np.mean(np.abs((y_test - y_pred) / y_test)) * 100.0)
 
-        results[name] = {
+        metrics[name] = {
             "MAE": round(mae, 2),
             "RMSE": round(rmse, 2),
             "R2": round(r2, 4),
             "MAPE": round(mape, 2)
         }
-        print(f"   [{name}] Test MAE: {mae:.2f} L | RMSE: {rmse:.2f} L | R2: {r2:.4f} | MAPE: {mape:.2f}%", flush=True)
+        fitted_pipelines[name] = pipeline
 
-    best_model_name = max(results, key=lambda k: results[k]["R2"])
+        print(f"[{name}] MAE: {mae:.2f} Lakhs | RMSE: {rmse:.2f} Lakhs | R2: {r2:.4f} | MAPE: {mape:.2f}%")
+
+    # Select Best Model based on Lowest RMSE & Highest R2
+    best_model_name = max(metrics.keys(), key=lambda m: (metrics[m]["R2"], -metrics[m]["RMSE"]))
     best_pipeline = fitted_pipelines[best_model_name]
-    print(f"\n[BEST MODEL] 🏆 Winner: {best_model_name} (R² = {results[best_model_name]['R2']})", flush=True)
+    print(f"\n[BEST MODEL SELECTED] {best_model_name} (R2: {metrics[best_model_name]['R2']}, MAPE: {metrics[best_model_name]['MAPE']}%)")
 
+    # Save Best Model Pipeline
     joblib.dump(best_pipeline, os.path.join(MODEL_DIR, 'model.pkl'))
-    print("[SUCCESS] Saved production pipeline to model/model.pkl", flush=True)
+    print(f"[SUCCESS] Saved production pipeline to model/model.pkl", flush=True)
 
-    # Feature Importance
-    tree_regressor = fitted_pipelines["Gradient Boosting"].named_steps['regressor']
-    cat_encoder = preprocessor.named_transformers_['cat']
-    encoded_cat_names = cat_encoder.get_feature_names_out(categorical_features).tolist()
-    all_encoded_names = numeric_features + encoded_cat_names
+    # Feature Importance for Tree Models
+    feature_importance_list = []
+    try:
+        ohe = preprocessor.named_transformers_['cat']
+        cat_feature_names = list(ohe.get_feature_names_out(categorical_features))
+        all_encoded_features = numeric_features + cat_feature_names
 
-    importances = tree_regressor.feature_importances_
-    aggregated_importance = {}
-    for feat_name, imp in zip(all_encoded_names, importances):
-        if "City_" in feat_name:
-            group = "City & Metro Hub"
-        elif "Locality_" in feat_name:
-            group = "Micro-Market Locality"
-        elif "Property_Type_" in feat_name:
-            group = "Property Type"
-        elif "Furnishing_Status_" in feat_name:
-            group = "Furnishing Status"
-        elif "Gated_Community_" in feat_name:
-            group = "Gated Community"
-        elif feat_name == "Area_SqFt":
-            group = "Built-Up Area (Sq.Ft)"
-        elif feat_name == "BHK":
-            group = "BHK Layout"
-        elif feat_name == "Bathrooms":
-            group = "Bathrooms"
-        elif feat_name == "Property_Age":
-            group = "Property Age"
-        elif feat_name == "Amenities_Score":
-            group = "Amenities Score"
-        elif feat_name == "Metro_Distance_KM":
-            group = "Metro Proximity"
-        elif feat_name in ["Floor_No", "Total_Floors"]:
-            group = "Floor Level & Height"
-        elif feat_name == "Parking_Spaces":
-            group = "Parking Spaces"
-        else:
-            group = feat_name
-        
-        aggregated_importance[group] = aggregated_importance.get(group, 0.0) + float(imp)
+        if hasattr(best_pipeline.named_steps['regressor'], 'feature_importances_'):
+            importances = best_pipeline.named_steps['regressor'].feature_importances_
+            feat_imp_df = pd.DataFrame({
+                'feature': all_encoded_features,
+                'importance': importances
+            }).sort_values('importance', ascending=False)
 
-    sorted_importances = [
-        {"feature": k, "importance": round(v * 100, 2)}
-        for k, v in sorted(aggregated_importance.items(), key=lambda item: item[1], reverse=True)
-    ]
+            for _, row in feat_imp_df.head(15).iterrows():
+                feature_importance_list.append({
+                    "feature": str(row['feature']),
+                    "importance": round(float(row['importance']) * 100, 2)
+                })
+    except Exception as e:
+        print(f"[WARN] Feature importance calculation note: {e}")
 
     with open(os.path.join(MODEL_DIR, 'feature_importance.json'), 'w') as f:
-        json.dump(sorted_importances, f, indent=2)
+        json.dump(feature_importance_list, f, indent=2)
 
-    # Evaluation Samples for Recharts
+    # Save Test-Set Actual vs Predicted for Dashboard
     y_test_pred = best_pipeline.predict(X_test)
-    eval_df = pd.DataFrame({
-        "actual": y_test.values,
-        "predicted": y_test_pred,
-        "area": X_test["Area_SqFt"].values,
-        "bhk": X_test["BHK"].values,
-        "city": X_test["City"].values,
-        "locality": X_test["Locality"].values
-    })
+    eval_df = X_test.copy()
+    eval_df['Actual_Price'] = y_test.values
+    eval_df['Predicted_Price'] = y_test_pred
+    eval_df['Absolute_Error'] = np.abs(eval_df['Actual_Price'] - eval_df['Predicted_Price'])
+    eval_df['Percentage_Error'] = (eval_df['Absolute_Error'] / eval_df['Actual_Price']) * 100.0
 
-    hist_counts, bin_edges = np.histogram(df["Price_INR_Lakhs"], bins=8)
-    dist_data = []
-    for i in range(len(hist_counts)):
-        b_min = bin_edges[i]
-        b_max = bin_edges[i+1]
-        range_label = f"₹{b_min:.0f}L - ₹{b_max:.0f}L" if b_max < 100 else f"₹{b_min/100:.2f}Cr - ₹{b_max/100:.2f}Cr"
-        dist_data.append({
-            "range": range_label,
-            "count": int(hist_counts[i]),
-            "min_lakhs": round(float(b_min), 2),
-            "max_lakhs": round(float(b_max), 2)
+    eval_samples = []
+    for _, row in eval_df.head(25).iterrows():
+        eval_samples.append({
+            "city": str(row['City']),
+            "locality": str(row['Locality']),
+            "property_type": str(row['Property_Type']),
+            "bhk": int(row['BHK']),
+            "bathrooms": int(row['Bathrooms']),
+            "area_sqft": int(row['Area_SqFt']),
+            "actual_price": round(float(row['Actual_Price']), 2),
+            "predicted_price": round(float(row['Predicted_Price']), 2),
+            "error_lakhs": round(float(row['Absolute_Error']), 2),
+            "error_pct": round(float(row['Percentage_Error']), 2)
         })
 
-    eval_chart_data = {
-        "actual_vs_predicted": [
-            {
-                "id": i,
-                "actual_lakhs": round(float(eval_df.iloc[i]["actual"]), 2),
-                "predicted_lakhs": round(float(eval_df.iloc[i]["predicted"]), 2),
-                "actual_cr": round(float(eval_df.iloc[i]["actual"]) / 100.0, 2),
-                "predicted_cr": round(float(eval_df.iloc[i]["predicted"]) / 100.0, 2),
-                "bhk": int(eval_df.iloc[i]["bhk"]),
-                "area": int(eval_df.iloc[i]["area"]),
-                "city": eval_df.iloc[i]["city"],
-                "locality": eval_df.iloc[i]["locality"]
-            }
-            for i in range(min(80, len(eval_df)))
-        ],
-        "price_distribution": dist_data,
+    # Price distribution bins
+    price_bins = [0, 40, 75, 150, 300, 600, 1200, 2000]
+    bin_labels = ["<40L (Budget)", "40L-75L (Affordable)", "75L-1.5Cr (Mid)", "1.5Cr-3Cr (Premium)", "3Cr-6Cr (Luxury)", "6Cr-12Cr (High Luxury)", ">12Cr (Super Luxury)"]
+    hist, _ = np.histogram(df[target], bins=price_bins)
+    price_distribution = [{"range": label, "count": int(count)} for label, count in zip(bin_labels, hist)]
+
+    eval_export = {
+        "actual_vs_predicted": eval_samples,
+        "price_distribution": price_distribution,
         "metrics_comparison": [
-            {
-                "model": model_name,
-                "r2_score": round(metrics["R2"] * 100, 2),
-                "mae_lakhs": metrics["MAE"],
-                "rmse_lakhs": metrics["RMSE"],
-                "mape": metrics["MAPE"]
-            }
-            for model_name, metrics in results.items()
+            {"model": m, **metrics[m]} for m in metrics
         ]
     }
 
     with open(os.path.join(MODEL_DIR, 'eval_samples.json'), 'w') as f:
-        json.dump(eval_chart_data, f, indent=2)
+        json.dump(eval_export, f, indent=2)
 
-    # Metadata
-    metadata = {
-        "dataset_name": "Indian Urban House Price Prediction Dataset (Expanded)",
-        "total_records": int(len(df)),
-        "train_records": int(len(X_train)),
-        "test_records": int(len(X_test)),
-        "target_variable": "Price_INR_Lakhs",
+    # Save Full Metadata
+    full_metrics = {
+        "dataset_name": "Indian Urban House Price Prediction Dataset",
+        "best_model": best_model_name,
+        "total_records": len(df),
+        "train_records": len(X_train),
+        "test_records": len(X_test),
+        "target_variable": target,
         "numeric_features": numeric_features,
         "categorical_features": categorical_features,
         "removed_leakage_features": removed_leakage_features,
-        "cities": sorted(list(CITY_LOCALITIES.keys())),
-        "city_localities": CITY_LOCALITIES,
+        "models_performance": metrics,
+        "cities": list(CITY_LOCALITIES.keys()),
+        "city_localities": {c: list(locs.keys()) for c, locs in CITY_LOCALITIES.items()},
         "property_types": list(PROPERTY_TYPE_FACTORS.keys()),
-        "furnishing_statuses": list(FURNISHING_FACTORS.keys()),
-        "best_model": best_model_name,
-        "models_performance": results
+        "furnishing_statuses": list(FURNISHING_FACTORS.keys())
     }
 
     with open(os.path.join(MODEL_DIR, 'metrics.json'), 'w') as f:
-        json.dump(metadata, f, indent=2)
+        json.dump(full_metrics, f, indent=2)
 
-    print("[SUCCESS] All artifacts trained and saved to backend/model/!", flush=True)
+    print("\n[SUCCESS] Model training and evaluation complete! Artifacts saved.")
 
 if __name__ == '__main__':
     train_and_evaluate()

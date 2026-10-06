@@ -1,5 +1,6 @@
 {
-  "dataset_name": "Indian Urban House Price Prediction Dataset (Expanded)",
+  "dataset_name": "Indian Urban House Price Prediction Dataset",
+  "best_model": "Gradient Boosting",
   "total_records": 5000,
   "train_records": 4000,
   "test_records": 1000,
@@ -25,118 +26,135 @@
   "removed_leakage_features": [
     "Price_per_SqFt"
   ],
+  "models_performance": {
+    "Linear Regression": {
+      "MAE": 104.26,
+      "RMSE": 194.95,
+      "R2": 0.7256,
+      "MAPE": 83.89
+    },
+    "Random Forest": {
+      "MAE": 62.32,
+      "RMSE": 136.61,
+      "R2": 0.8652,
+      "MAPE": 24.13
+    },
+    "Gradient Boosting": {
+      "MAE": 38.91,
+      "RMSE": 84.72,
+      "R2": 0.9482,
+      "MAPE": 14.53
+    }
+  },
   "cities": [
-    "Ahmedabad",
-    "Bangalore",
-    "Chennai",
-    "Delhi NCR",
-    "Hyderabad",
-    "Kolkata",
     "Mumbai",
-    "Pune"
+    "Bangalore",
+    "Delhi NCR",
+    "Ahmedabad",
+    "Pune",
+    "Hyderabad",
+    "Chennai",
+    "Kolkata"
   ],
   "city_localities": {
-    "Mumbai": {
-      "Kandivali West": 14500,
-      "Kandivali East": 13800,
-      "Thane West": 10500,
-      "Thane (Ghubunder Rd)": 8800,
-      "Bandra West": 42000,
-      "Bandra East": 28000,
-      "Borivali West": 15500,
-      "Malad West": 13500,
-      "Goregaon East": 16000,
-      "Andheri West": 23000,
-      "Andheri East": 18500,
-      "Powai": 19500,
-      "Worli": 46000,
-      "Dadar": 32000,
-      "Navi Mumbai (Vashi)": 13500,
-      "Navi Mumbai (Kharghar)": 8200
-    },
-    "Bangalore": {
-      "Electronic City": 5800,
-      "Sarjapur Road": 7200,
-      "Whitefield": 8500,
-      "Yelahanka": 6200,
-      "Kanakapura Road": 6800,
-      "Marathahalli": 7800,
-      "BTM Layout": 9500,
-      "HSR Layout": 13500,
-      "Indiranagar": 19000,
-      "Koramangala": 18500,
-      "Hebbal": 11500,
-      "Bannerghatta Road": 7400
-    },
-    "Delhi NCR": {
-      "Noida Extension (Greater Noida W)": 4800,
-      "Noida Sector 137": 6800,
-      "Noida Sector 62": 8200,
-      "Noida Expressway": 9200,
-      "Gurgaon Sector 48 (Sohna Rd)": 9800,
-      "Gurgaon Sector 82 (New Gurgaon)": 6500,
-      "Gurgaon Cyber City": 18500,
-      "Gurgaon Golf Course Rd": 28000,
-      "Dwarka (Delhi)": 11500,
-      "Janakpuri (Delhi)": 14000,
-      "Rohini (Delhi)": 9500,
-      "South Extension": 26000
-    },
-    "Ahmedabad": {
-      "Bopal": 4800,
-      "South Bopal (SoBo)": 5200,
-      "Gota": 4500,
-      "Chandkheda": 4200,
-      "Nikol": 3800,
-      "Vastrapur": 8200,
-      "Satellite": 8500,
-      "Prahlad Nagar": 9200,
-      "SG Highway": 7500,
-      "Bodakdev": 9800,
-      "Maninagar": 5500
-    },
-    "Pune": {
-      "Hinjewadi": 6800,
-      "Wakad": 7800,
-      "Hadapsar": 6500,
-      "Kharadi": 8500,
-      "Baner": 10200,
-      "Pimple Saudagar": 7500,
-      "Kothrud": 12500,
-      "Viman Nagar": 11500,
-      "Koregaon Park": 16000,
-      "Bavdhan": 7200
-    },
-    "Hyderabad": {
-      "Miyapur": 5200,
-      "Kukatpally": 6800,
-      "Kondapur": 8200,
-      "Gachibowli": 10500,
-      "HITEC City": 12000,
-      "Madhapur": 11500,
-      "Banjara Hills": 22000,
-      "Jubilee Hills": 24000,
-      "Manikonda": 6500
-    },
-    "Chennai": {
-      "Guduvanchery": 4200,
-      "Tambaram": 5800,
-      "Porur": 6800,
-      "OMR IT Corridor": 7200,
-      "Velachery": 8800,
-      "Anna Nagar": 15500,
-      "Adyar": 17500,
-      "Boat Club Road": 28000
-    },
-    "Kolkata": {
-      "Rajarhat": 4800,
-      "New Town": 6200,
-      "Behala": 4500,
-      "Garia": 4900,
-      "Salt Lake Sector V": 8500,
-      "Ballygunge": 15000,
-      "Park Street": 16500
-    }
+    "Mumbai": [
+      "Kandivali West",
+      "Kandivali East",
+      "Thane West",
+      "Thane (Ghodbunder Rd)",
+      "Bandra West",
+      "Bandra East",
+      "Borivali West",
+      "Malad West",
+      "Goregaon East",
+      "Andheri West",
+      "Andheri East",
+      "Powai",
+      "Worli",
+      "Dadar",
+      "Navi Mumbai (Vashi)",
+      "Navi Mumbai (Kharghar)"
+    ],
+    "Bangalore": [
+      "Electronic City",
+      "Sarjapur Road",
+      "Whitefield",
+      "Yelahanka",
+      "Kanakapura Road",
+      "Marathahalli",
+      "BTM Layout",
+      "HSR Layout",
+      "Indiranagar",
+      "Koramangala",
+      "Hebbal",
+      "Bannerghatta Road"
+    ],
+    "Delhi NCR": [
+      "Noida Extension (Greater Noida W)",
+      "Noida Sector 137",
+      "Noida Sector 62",
+      "Noida Expressway",
+      "Gurgaon Sector 48 (Sohna Rd)",
+      "Gurgaon Sector 82 (New Gurgaon)",
+      "Gurgaon Cyber City",
+      "Gurgaon Golf Course Rd",
+      "Dwarka (Delhi)",
+      "Janakpuri (Delhi)",
+      "Rohini (Delhi)",
+      "South Extension"
+    ],
+    "Ahmedabad": [
+      "Bopal",
+      "South Bopal (SoBo)",
+      "Gota",
+      "Chandkheda",
+      "Nikol",
+      "Vastrapur",
+      "Satellite",
+      "Prahlad Nagar",
+      "SG Highway",
+      "Bodakdev",
+      "Maninagar"
+    ],
+    "Pune": [
+      "Hinjewadi",
+      "Wakad",
+      "Hadapsar",
+      "Kharadi",
+      "Baner",
+      "Pimple Saudagar",
+      "Kothrud",
+      "Viman Nagar",
+      "Koregaon Park",
+      "Kalyani Nagar"
+    ],
+    "Hyderabad": [
+      "Miyapur",
+      "Kukatpally",
+      "Kondapur",
+      "Gachibowli",
+      "HITEC City",
+      "Madhapur",
+      "Banjara Hills",
+      "Jubilee Hills"
+    ],
+    "Chennai": [
+      "Tambaram",
+      "Porur",
+      "OMR IT Corridor",
+      "Velachery",
+      "Anna Nagar",
+      "Adyar",
+      "Boat Club Road"
+    ],
+    "Kolkata": [
+      "Rajarhat",
+      "New Town",
+      "Behala",
+      "Salt Lake Sector V",
+      "Ballygunge",
+      "Park Street"
+    ]
   },
   "property_types": [
     "Apartment",
@@ -149,26 +167,5 @@
     "Furnished",
     "Semi-Furnished",
     "Unfurnished"
-  ],
-  "best_model": "Gradient Boosting",
-  "models_performance": {
-    "Linear Regression": {
-      "MAE": 61.47,
-      "RMSE": 99.78,
-      "R2": 0.8089,
-      "MAPE": 50.17
-    },
-    "Random Forest": {
-      "MAE": 43.03,
-      "RMSE": 75.24,
-      "R2": 0.8913,
-      "MAPE": 24.02
-    },
-    "Gradient Boosting": {
-      "MAE": 31.73,
-      "RMSE": 56.71,
-      "R2": 0.9383,
-      "MAPE": 17.1
-    }
-  }
+  ]
 }
