@@ -9,13 +9,15 @@ export default function Properties({ setActivePage, setPrefillData }) {
   const [selectedType, setSelectedType] = useState('All');
   const [selectedBhk, setSelectedBhk] = useState('All');
   const [priceSort, setPriceSort] = useState('featured');
-  const [activeModalProp, setActiveModalProp] = useState(null);
 
   const filteredProperties = useMemo(() => {
     return SAMPLE_PROPERTIES.filter((item) => {
-      const matchSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const q = searchQuery.toLowerCase();
+      const matchSearch = (item.title || '').toLowerCase().includes(q) ||
+                          (item.location || '').toLowerCase().includes(q) ||
+                          (item.locality || '').toLowerCase().includes(q) ||
+                          (item.city || '').toLowerCase().includes(q) ||
+                          (item.description || '').toLowerCase().includes(q);
       
       const matchCity = selectedCity === 'All' || item.city.toLowerCase() === selectedCity.toLowerCase();
       const matchType = selectedType === 'All' || item.propertyType.toLowerCase() === selectedType.toLowerCase();
@@ -23,30 +25,29 @@ export default function Properties({ setActivePage, setPrefillData }) {
 
       return matchSearch && matchCity && matchType && matchBhk;
     }).sort((a, b) => {
-      if (priceSort === 'price-low') return a.price - b.price;
-      if (priceSort === 'price-high') return b.price - a.price;
-      if (priceSort === 'area-high') return b.livingArea - a.livingArea;
+      if (priceSort === 'price-low') return (a.priceLakhs || 0) - (b.priceLakhs || 0);
+      if (priceSort === 'price-high') return (b.priceLakhs || 0) - (a.priceLakhs || 0);
+      if (priceSort === 'area-high') return (b.livingArea || 0) - (a.livingArea || 0);
       return 0;
     });
   }, [searchQuery, selectedCity, selectedType, selectedBhk, priceSort]);
 
   const handlePredictProperty = (property) => {
     setPrefillData({
-      location: property.location,
-      property_type: property.propertyType,
-      bhk: property.bhk,
-      bathrooms: property.bathrooms,
-      living_area_sqft: property.livingArea,
-      floor_no: property.floorNo,
-      total_floors: property.totalFloors,
-      property_age: property.age,
-      parking_spaces: property.parking,
-      furnishing_status: property.furnishing,
-      balcony_count: property.balcony,
-      overall_quality: property.qualityRating,
-      overall_condition: property.conditionRating,
-      distance_to_metro_km: property.metroDist,
-      amenities_score: property.amenitiesScore,
+      City: property.city,
+      Locality: property.locality,
+      Property_Type: property.propertyType,
+      BHK: property.bhk,
+      Bathrooms: property.bathrooms,
+      Area_SqFt: property.livingArea,
+      Floor_No: property.floorNo,
+      Total_Floors: property.totalFloors,
+      Property_Age: property.age,
+      Parking_Spaces: property.parking,
+      Furnishing_Status: property.furnishing,
+      Gated_Community: property.gated || "Yes",
+      Metro_Distance_KM: property.metroDist,
+      Amenities_Score: property.amenitiesScore,
     });
     setActivePage('predict');
   };
@@ -60,19 +61,19 @@ export default function Properties({ setActivePage, setPrefillData }) {
           Explore Properties
         </h1>
         <p className="text-xs sm:text-sm text-slate-300">
-          Browse verified residential properties. Click any property to test its parameters in our valuation model.
+          Browse verified residential listings across India's top urban markets. Click any property to test its parameters in our valuation model.
         </p>
       </div>
 
       {/* Search & Filter Control Bar */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+      <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 shadow-lg">
         
         {/* Search */}
         <div className="relative">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="Search by neighborhood, title or keyword..."
+            placeholder="Search by locality (e.g. Kandivali, Bandra, Thane, Bopal, Whitefield), title or city..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
@@ -93,9 +94,11 @@ export default function Properties({ setActivePage, setPrefillData }) {
               <option value="Mumbai">Mumbai</option>
               <option value="Bangalore">Bangalore</option>
               <option value="Delhi NCR">Delhi NCR</option>
+              <option value="Ahmedabad">Ahmedabad</option>
               <option value="Pune">Pune</option>
               <option value="Hyderabad">Hyderabad</option>
               <option value="Chennai">Chennai</option>
+              <option value="Kolkata">Kolkata</option>
             </select>
           </div>
 
@@ -122,6 +125,7 @@ export default function Properties({ setActivePage, setPrefillData }) {
               className="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:outline-none focus:border-blue-500"
             >
               <option value="All">Any BHK</option>
+              <option value="1">1 BHK</option>
               <option value="2">2 BHK</option>
               <option value="3">3 BHK</option>
               <option value="4">4 BHK</option>
@@ -155,7 +159,6 @@ export default function Properties({ setActivePage, setPrefillData }) {
               key={prop.id}
               property={prop}
               onPredictSimilar={handlePredictProperty}
-              onViewDetails={(p) => setActiveModalProp(p)}
             />
           ))}
         </div>

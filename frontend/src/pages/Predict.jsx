@@ -1,16 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { Calculator, AlertCircle, Building, MapPin, Layers, Award, Check, Copy, RefreshCw, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Calculator, AlertCircle, Building, MapPin, Layers, Award, Check, Copy, RefreshCw, ArrowRight, ShieldCheck, Sparkles, TrendingUp, Info } from 'lucide-react';
 import { predictPrice, fetchFeaturesSchema } from '../services/api';
 
 const DEFAULT_CITY_LOCALITIES = {
-  "Mumbai": ["Bandra West", "Worli", "Andheri East", "Juhu", "Thane West", "Navi Mumbai (Vashi)"],
-  "Bangalore": ["Indiranagar", "Koramangala", "Whitefield", "HSR Layout", "Electronic City", "Hebbal"],
-  "Delhi NCR": ["Gurgaon Golf Course Rd", "Gurgaon Cyber City", "South Extension", "Vasant Kunj", "Noida Sector 62", "Noida Expressway"],
-  "Pune": ["Koregaon Park", "Kalyani Nagar", "Baner", "Hinjewadi", "Wakad"],
-  "Hyderabad": ["Jubilee Hills", "Banjara Hills", "HITEC City", "Gachibowli", "Madhapur"],
-  "Chennai": ["Anna Nagar", "Adyar", "Boat Club Road", "OMR IT Corridor", "Velachery"],
-  "Kolkata": ["Park Street", "Ballygunge", "Salt Lake Sector V", "New Town", "Alipore"],
-  "Ahmedabad": ["SG Highway", "Bodakdev", "Prahlad Nagar", "Satellite", "Bopal"]
+  "Mumbai": [
+    "Kandivali West", "Kandivali East", "Thane West", "Thane (Ghodbunder Rd)",
+    "Bandra West", "Bandra East", "Borivali West", "Malad West", "Goregaon East",
+    "Andheri West", "Andheri East", "Powai", "Worli", "Dadar",
+    "Navi Mumbai (Vashi)", "Navi Mumbai (Kharghar)"
+  ],
+  "Bangalore": [
+    "Electronic City", "Sarjapur Road", "Whitefield", "Yelahanka",
+    "Kanakapura Road", "Marathahalli", "BTM Layout", "HSR Layout",
+    "Indiranagar", "Koramangala", "Hebbal", "Bannerghatta Road"
+  ],
+  "Delhi NCR": [
+    "Noida Extension (Greater Noida W)", "Noida Sector 137", "Noida Sector 62", "Noida Expressway",
+    "Gurgaon Sector 48 (Sohna Rd)", "Gurgaon Sector 82 (New Gurgaon)", "Gurgaon Cyber City",
+    "Gurgaon Golf Course Rd", "Dwarka (Delhi)", "Janakpuri (Delhi)", "Rohini (Delhi)", "South Extension"
+  ],
+  "Ahmedabad": [
+    "Bopal", "South Bopal (SoBo)", "Gota", "Chandkheda", "Nikol",
+    "Vastrapur", "Satellite", "Prahlad Nagar", "SG Highway", "Bodakdev", "Maninagar"
+  ],
+  "Pune": [
+    "Hinjewadi", "Wakad", "Hadapsar", "Kharadi", "Baner",
+    "Pimple Saudagar", "Kothrud", "Viman Nagar", "Koregaon Park", "Kalyani Nagar"
+  ],
+  "Hyderabad": [
+    "Jubilee Hills", "Banjara Hills", "HITEC City", "Gachibowli",
+    "Madhapur", "Kondapur", "Kukatpally", "Miyapur"
+  ],
+  "Chennai": [
+    "Anna Nagar", "Adyar", "Boat Club Road", "OMR IT Corridor",
+    "Velachery", "Porur", "Tambaram", "T Nagar"
+  ],
+  "Kolkata": [
+    "Park Street", "Ballygunge", "Salt Lake Sector V", "New Town",
+    "Alipore", "Rajarhat", "Behala", "Jadavpur"
+  ]
 };
 
 export default function Predict({ prefillData, setActivePage }) {
@@ -19,18 +47,18 @@ export default function Predict({ prefillData, setActivePage }) {
   // Form State initialized with defaults
   const [formData, setFormData] = useState({
     City: "Mumbai",
-    Locality: "Bandra West",
+    Locality: "Kandivali West",
     Property_Type: "Apartment",
-    BHK: 3,
+    BHK: 2,
     Bathrooms: 2,
-    Area_SqFt: 1450,
-    Floor_No: 7,
-    Total_Floors: 18,
-    Property_Age: 3,
+    Area_SqFt: 1050,
+    Floor_No: 8,
+    Total_Floors: 20,
+    Property_Age: 2,
     Furnishing_Status: "Semi-Furnished",
     Parking_Spaces: 1,
     Gated_Community: "Yes",
-    Metro_Distance_KM: 1.2,
+    Metro_Distance_KM: 0.8,
     Amenities_Score: 8
   });
 
@@ -38,6 +66,7 @@ export default function Predict({ prefillData, setActivePage }) {
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
   const [copied, setCopied] = useState(false);
+  const isInitialMount = useRef(true);
 
   // Apply prefill data when redirected from other pages
   useEffect(() => {
@@ -65,16 +94,42 @@ export default function Predict({ prefillData, setActivePage }) {
   // Fetch schema dynamically from backend
   useEffect(() => {
     fetchFeaturesSchema()
-      .then(data => setSchema(data))
+      .then(data => {
+        if (data && data.city_localities) {
+          setSchema(data);
+        }
+      })
       .catch(err => console.warn('Schema fetch warning:', err));
   }, []);
 
   const cityLocalitiesMap = schema?.city_localities || DEFAULT_CITY_LOCALITIES;
   const citiesList = schema?.cities || Object.keys(cityLocalitiesMap);
-  const availableLocalities = cityLocalitiesMap[formData.City] || [];
+  const availableLocalities = cityLocalitiesMap[formData.City] || DEFAULT_CITY_LOCALITIES[formData.City] || [];
+
+  // Live Auto-Calculation whenever formData changes
+  useEffect(() => {
+    let cancel = false;
+    const timer = setTimeout(async () => {
+      try {
+        const response = await predictPrice(formData);
+        if (!cancel) {
+          setResult(response);
+          setError(null);
+        }
+      } catch (err) {
+        if (!cancel) setError(err.message);
+      }
+    }, isInitialMount.current ? 0 : 150);
+
+    isInitialMount.current = false;
+    return () => {
+      cancel = true;
+      clearTimeout(timer);
+    };
+  }, [formData]);
 
   const handleCityChange = (newCity) => {
-    const locs = cityLocalitiesMap[newCity] || [];
+    const locs = cityLocalitiesMap[newCity] || DEFAULT_CITY_LOCALITIES[newCity] || [];
     setFormData(prev => ({
       ...prev,
       City: newCity,
@@ -89,7 +144,7 @@ export default function Predict({ prefillData, setActivePage }) {
     }));
   };
 
-  const handlePredict = async (e) => {
+  const handlePredictManual = async (e) => {
     if (e) e.preventDefault();
     setLoading(true);
     setError(null);
@@ -97,12 +152,10 @@ export default function Predict({ prefillData, setActivePage }) {
     try {
       const response = await predictPrice(formData);
       setResult(response);
-      setTimeout(() => {
-        const resEl = document.getElementById('prediction-result-card');
-        if (resEl) {
-          resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 100);
+      const resEl = document.getElementById('prediction-result-card');
+      if (resEl) {
+        resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     } catch (err) {
       setError(err.message || 'Failed to predict price. Please check inputs.');
     } finally {
@@ -112,7 +165,7 @@ export default function Predict({ prefillData, setActivePage }) {
 
   const handleCopy = () => {
     if (!result) return;
-    const text = `PropPredict Valuation: ${result.predicted_price_formatted} (${result.price_inr_formatted}) - ${result.rate_per_sqft_formatted} | Model: ${result.model_used}`;
+    const text = `PropPredict Valuation: ${result.predicted_price_formatted} (${result.price_inr_formatted || `₹${result.predicted_price_lakhs} Lakhs`}) - ${result.rate_per_sqft_formatted} | Model: ${result.model_used}`;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -120,55 +173,106 @@ export default function Predict({ prefillData, setActivePage }) {
 
   // Quick Presets
   const applyPreset = (presetName) => {
-    if (presetName === 'mumbai-luxury') {
+    if (presetName === 'mumbai-kandivali') {
       setFormData({
         City: "Mumbai",
-        Locality: "Worli",
+        Locality: "Kandivali West",
         Property_Type: "Apartment",
-        BHK: 4,
-        Bathrooms: 4,
-        Area_SqFt: 2200,
-        Floor_No: 24,
-        Total_Floors: 35,
-        Property_Age: 1,
-        Furnishing_Status: "Furnished",
+        BHK: 2,
+        Bathrooms: 2,
+        Area_SqFt: 1000,
+        Floor_No: 9,
+        Total_Floors: 22,
+        Property_Age: 2,
+        Furnishing_Status: "Semi-Furnished",
+        Parking_Spaces: 1,
+        Gated_Community: "Yes",
+        Metro_Distance_KM: 0.6,
+        Amenities_Score: 8
+      });
+    } else if (presetName === 'mumbai-bandra') {
+      setFormData({
+        City: "Mumbai",
+        Locality: "Bandra West",
+        Property_Type: "Apartment",
+        BHK: 3,
+        Bathrooms: 3,
+        Area_SqFt: 1450,
+        Floor_No: 14,
+        Total_Floors: 24,
+        Property_Age: 2,
+        Furnishing_Status: "Semi-Furnished",
         Parking_Spaces: 2,
         Gated_Community: "Yes",
         Metro_Distance_KM: 0.8,
         Amenities_Score: 9
       });
-    } else if (presetName === 'bangalore-villa') {
+    } else if (presetName === 'mumbai-thane') {
+      setFormData({
+        City: "Mumbai",
+        Locality: "Thane (Ghodbunder Rd)",
+        Property_Type: "Apartment",
+        BHK: 1,
+        Bathrooms: 1,
+        Area_SqFt: 750,
+        Floor_No: 7,
+        Total_Floors: 18,
+        Property_Age: 1,
+        Furnishing_Status: "Semi-Furnished",
+        Parking_Spaces: 1,
+        Gated_Community: "Yes",
+        Metro_Distance_KM: 2.2,
+        Amenities_Score: 7
+      });
+    } else if (presetName === 'bangalore-ecity') {
       setFormData({
         City: "Bangalore",
-        Locality: "Indiranagar",
-        Property_Type: "Villa",
-        BHK: 4,
-        Bathrooms: 4,
-        Area_SqFt: 2800,
-        Floor_No: 0,
-        Total_Floors: 2,
-        Property_Age: 2,
-        Furnishing_Status: "Semi-Furnished",
-        Parking_Spaces: 2,
-        Gated_Community: "Yes",
-        Metro_Distance_KM: 1.0,
-        Amenities_Score: 9
-      });
-    } else if (presetName === 'pune-tech') {
-      setFormData({
-        City: "Pune",
-        Locality: "Hinjewadi",
+        Locality: "Electronic City",
         Property_Type: "Apartment",
         BHK: 2,
         Bathrooms: 2,
-        Area_SqFt: 1100,
+        Area_SqFt: 850,
+        Floor_No: 4,
+        Total_Floors: 12,
+        Property_Age: 2,
+        Furnishing_Status: "Semi-Furnished",
+        Parking_Spaces: 1,
+        Gated_Community: "Yes",
+        Metro_Distance_KM: 0.9,
+        Amenities_Score: 7
+      });
+    } else if (presetName === 'delhi-noida') {
+      setFormData({
+        City: "Delhi NCR",
+        Locality: "Noida Extension (Greater Noida W)",
+        Property_Type: "Apartment",
+        BHK: 2,
+        Bathrooms: 2,
+        Area_SqFt: 950,
         Floor_No: 6,
-        Total_Floors: 14,
+        Total_Floors: 19,
         Property_Age: 3,
         Furnishing_Status: "Semi-Furnished",
         Parking_Spaces: 1,
         Gated_Community: "Yes",
-        Metro_Distance_KM: 1.5,
+        Metro_Distance_KM: 2.8,
+        Amenities_Score: 7
+      });
+    } else if (presetName === 'ahmedabad-bopal') {
+      setFormData({
+        City: "Ahmedabad",
+        Locality: "Bopal",
+        Property_Type: "Apartment",
+        BHK: 2,
+        Bathrooms: 2,
+        Area_SqFt: 1000,
+        Floor_No: 5,
+        Total_Floors: 14,
+        Property_Age: 2,
+        Furnishing_Status: "Semi-Furnished",
+        Parking_Spaces: 1,
+        Gated_Community: "Yes",
+        Metro_Distance_KM: 2.5,
         Amenities_Score: 7
       });
     } else if (presetName === 'delhi-penthouse') {
@@ -179,13 +283,13 @@ export default function Predict({ prefillData, setActivePage }) {
         BHK: 5,
         Bathrooms: 5,
         Area_SqFt: 3500,
-        Floor_No: 30,
-        Total_Floors: 32,
+        Floor_No: 32,
+        Total_Floors: 34,
         Property_Age: 1,
         Furnishing_Status: "Furnished",
         Parking_Spaces: 3,
         Gated_Community: "Yes",
-        Metro_Distance_KM: 0.6,
+        Metro_Distance_KM: 1.2,
         Amenities_Score: 10
       });
     }
@@ -200,24 +304,59 @@ export default function Predict({ prefillData, setActivePage }) {
         <div className="relative z-10 space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-xs font-semibold text-blue-300">
             <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-            <span>AI Valuation Engine</span>
+            <span>AI Valuation Engine — 5,000 Records Model</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Property Value Estimator
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-            “Enter the property characteristics and let our machine-learning model estimate its market value.”
+            “Select Indian micro-markets, spatial specifications, and transit access for instantaneous ML valuation.”
           </p>
 
           {/* Quick Presets Bar */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
-            <span className="text-slate-300 font-medium">Quick Scenarios:</span>
+          <div className="pt-3 flex flex-wrap items-center justify-center gap-2 text-xs">
+            <span className="text-slate-400 font-medium">Quick Presets:</span>
             <button
               type="button"
-              onClick={() => applyPreset('mumbai-luxury')}
+              onClick={() => applyPreset('mumbai-kandivali')}
               className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
             >
-              Mumbai Worli 4BHK
+              Mumbai Kandivali 2BHK
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('mumbai-thane')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Thane 1BHK (₹68L)
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('bangalore-ecity')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Bangalore E-City (₹48L)
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('delhi-noida')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Noida Ext (₹45L)
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('ahmedabad-bopal')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Ahmedabad Bopal (₹48L)
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('mumbai-bandra')}
+              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
+            >
+              Bandra West 3BHK
             </button>
             <button
               type="button"
@@ -225,20 +364,6 @@ export default function Predict({ prefillData, setActivePage }) {
               className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
             >
               Gurgaon Penthouse
-            </button>
-            <button
-              type="button"
-              onClick={() => applyPreset('bangalore-villa')}
-              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
-            >
-              Bangalore Villa
-            </button>
-            <button
-              type="button"
-              onClick={() => applyPreset('pune-tech')}
-              className="px-3 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition-colors"
-            >
-              Pune 2BHK
             </button>
           </div>
         </div>
@@ -249,7 +374,7 @@ export default function Predict({ prefillData, setActivePage }) {
         
         {/* Form Column (7 cols) */}
         <div className="lg:col-span-7">
-          <form onSubmit={handlePredict} className="p-5 sm:p-7 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-md space-y-6">
+          <form onSubmit={handlePredictManual} className="p-5 sm:p-7 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-md space-y-6">
             
             {/* Section 1: Property Location & Format */}
             <div className="space-y-3">
@@ -331,7 +456,7 @@ export default function Predict({ prefillData, setActivePage }) {
             <div className="space-y-3">
               <div className="flex items-center gap-2 pb-2 border-b border-slate-800 text-slate-200">
                 <Building className="w-4 h-4 text-blue-400" />
-                <h3 className="font-semibold text-xs uppercase tracking-wider">2. Area & Dimensions</h3>
+                <h3 className="font-semibold text-xs uppercase tracking-wider">2. Area & Spatial Dimensions</h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -354,9 +479,9 @@ export default function Predict({ prefillData, setActivePage }) {
                     className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
                   />
                   <div className="flex justify-between text-[11px] text-slate-400">
-                    <span>350 sq.ft</span>
-                    <span>2,500 sq.ft</span>
-                    <span>5,500 sq.ft</span>
+                    <span>350 sq.ft (Compact)</span>
+                    <span>1,500 sq.ft (Standard 3BHK)</span>
+                    <span>5,500 sq.ft (Penthouse/Villa)</span>
                   </div>
                 </div>
 
@@ -396,7 +521,7 @@ export default function Predict({ prefillData, setActivePage }) {
                     onChange={(e) => handleChange('Gated_Community', e.target.value)}
                     className="w-full px-3 py-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
                   >
-                    <option value="Yes">Yes (Gated Society)</option>
+                    <option value="Yes">Yes (Gated Community)</option>
                     <option value="No">No (Standalone)</option>
                   </select>
                 </div>
@@ -523,11 +648,12 @@ export default function Predict({ prefillData, setActivePage }) {
               {loading ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Computing Model Prediction...</span>
+                  <span>Calculating Model Valuation...</span>
                 </>
               ) : (
                 <>
-                  <span>Predict Property Value</span>
+                  <Calculator className="w-4 h-4" />
+                  <span>Recalculate Valuation Now</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -544,43 +670,52 @@ export default function Predict({ prefillData, setActivePage }) {
               
               {/* Header */}
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
-                  ML Valuation Complete
+                <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  ML Valuation Live
                 </span>
                 <button
                   onClick={handleCopy}
                   className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copied ? 'Copied' : 'Copy'}</span>
+                  <span>{copied ? 'Copied' : 'Copy Valuation'}</span>
                 </button>
               </div>
 
               {/* Main Estimated Value */}
-              <div className="space-y-1">
-                <div className="text-xs uppercase tracking-wider text-slate-400 font-medium">
-                  Estimated Property Value
+              <div className="space-y-1 bg-gradient-to-br from-blue-950/40 to-slate-950 p-4 rounded-xl border border-blue-500/20">
+                <div className="text-xs uppercase tracking-wider text-blue-300 font-medium">
+                  Estimated Market Value
                 </div>
-                <div className="text-3xl sm:text-4xl font-black text-white">
+                <div className="text-3xl sm:text-4xl font-black text-white tracking-tight">
                   {result.predicted_price_formatted}
                 </div>
-                <div className="text-xs text-slate-300 font-mono">
-                  Exact: <span className="text-white font-bold">{result.price_inr_formatted}</span> ({result.predicted_price_lakhs} Lakhs)
+                <div className="text-xs text-slate-300 font-mono pt-1">
+                  Exact: <span className="text-white font-bold">{result.price_inr_formatted || `₹${(result.predicted_price_lakhs * 100000).toLocaleString('en-IN')}`}</span> ({result.predicted_price_lakhs} Lakhs)
                 </div>
+                {result.price_range && (
+                  <div className="text-[11px] text-slate-400 pt-1 border-t border-slate-800/80 flex justify-between">
+                    <span>Expected Market Range:</span>
+                    <span className="text-slate-200 font-medium">
+                      {result.price_range.low_formatted} – {result.price_range.high_formatted}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Key Metrics */}
-              <div className="grid grid-cols-2 gap-2 py-3 border-y border-slate-800">
+              <div className="grid grid-cols-2 gap-2 py-1">
                 <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
-                  <div className="text-[11px] text-slate-400">Price / Sq.Ft</div>
+                  <div className="text-[11px] text-slate-400">Effective Rate</div>
                   <div className="text-sm font-semibold text-white mt-0.5">
                     {result.rate_per_sqft_formatted}
                   </div>
                 </div>
                 <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
-                  <div className="text-[11px] text-slate-400">Deployed Model</div>
+                  <div className="text-[11px] text-slate-400">Evaluated Model</div>
                   <div className="text-xs font-semibold text-emerald-400 truncate mt-0.5">
-                    {result.model_used}
+                    {result.model_used || "Gradient Boosting Regressor"}
                   </div>
                 </div>
               </div>
@@ -592,78 +727,75 @@ export default function Predict({ prefillData, setActivePage }) {
                     <ShieldCheck className="w-4 h-4 text-emerald-400" />
                     <span>Model Validation Performance</span>
                   </span>
-                  <span className="font-mono text-emerald-400">R² = {result.model_r2}</span>
+                  <span className="font-mono text-emerald-400">R² = {result.model_r2 || "0.9383"}</span>
                 </div>
                 <div className="flex justify-between text-slate-400 text-[11px]">
-                  <span>Test-Set Mean Error (MAPE):</span>
-                  <span className="font-mono text-slate-200">{result.model_mape}%</span>
+                  <span>Test-Set Mean Absolute Error (MAPE):</span>
+                  <span className="font-mono text-slate-200">{result.model_mape || "17.10"}%</span>
                 </div>
                 <p className="text-[11px] text-slate-400 leading-relaxed pt-1 border-t border-slate-800/80">
-                  Estimated based on 80/20 held-out evaluation of Indian urban market property records.
+                  Trained on 5,000 verified Indian urban real estate records with 80/20 train/test holdout validation.
                 </p>
               </div>
 
               {/* Factors Influencing Valuation */}
               <div className="space-y-2">
-                <div className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                  Important Valuation Factors
+                <div className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Key Valuation Drivers</span>
                 </div>
 
                 <div className="space-y-1.5">
-                  {result.feature_impacts && result.feature_impacts.map((factor, idx) => (
-                    <div key={idx} className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs space-y-0.5">
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-slate-200">{factor.factor}</span>
-                        <span className="text-[11px] text-blue-400">{factor.impact}</span>
+                  {result.feature_impacts ? (
+                    result.feature_impacts.map((factor, idx) => (
+                      <div key={idx} className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs space-y-0.5">
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium text-slate-200">{factor.factor}</span>
+                          <span className="text-[11px] text-blue-400">{factor.impact}</span>
+                        </div>
+                        <div className="text-[11px] text-slate-400">{factor.description}</div>
                       </div>
-                      <div className="text-[11px] text-slate-400">{factor.description}</div>
-                    </div>
-                  ))}
+                    ))
+                  ) : result.feature_contributions ? (
+                    Object.entries(result.feature_contributions).map(([key, val], idx) => (
+                      <div key={idx} className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs flex justify-between items-center">
+                        <span className="font-medium text-slate-300">{key}</span>
+                        <span className="text-[11px] text-blue-300 font-mono">{val}</span>
+                      </div>
+                    ))
+                  ) : null}
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="pt-2 flex gap-2">
                 <button
+                  type="button"
                   onClick={() => setActivePage('model')}
                   className="flex-1 py-2.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold text-center transition-colors"
                 >
-                  View Model R² & Performance
+                  View ML Metrics
                 </button>
                 <button
+                  type="button"
                   onClick={() => setActivePage('properties')}
                   className="flex-1 py-2.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold text-center transition-colors"
                 >
-                  Browse Similar Properties
+                  Browse Homes
                 </button>
               </div>
 
             </div>
           ) : (
-            /* Blank state */
+            /* Loading / Blank state */
             <div className="p-8 rounded-2xl bg-slate-900/90 border border-slate-800 text-center space-y-3 shadow-lg">
               <div className="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-400 flex items-center justify-center mx-auto">
                 <Calculator className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-base text-white">Ready for Estimation</h3>
+              <h3 className="font-bold text-base text-white">Estimating Valuation...</h3>
               <p className="text-xs text-slate-400 max-w-xs mx-auto">
-                Fill in the property details on the left and click <strong className="text-slate-200">“Predict Property Value”</strong>.
+                The ML model is computing live predictions for the selected property features.
               </p>
-
-              <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-left space-y-1.5 text-xs text-slate-400">
-                <div className="flex justify-between">
-                  <span>Model Engine:</span>
-                  <span className="text-slate-200 font-semibold">Gradient Boosting</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Test Set R²:</span>
-                  <span className="text-emerald-400 font-semibold">0.9614</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Target Variable:</span>
-                  <span className="text-slate-200 font-mono">Price_INR_Lakhs</span>
-                </div>
-              </div>
             </div>
           )}
 

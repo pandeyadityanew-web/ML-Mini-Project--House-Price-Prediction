@@ -242,7 +242,7 @@ export default function Home({ setActivePage, setPrefillData }) {
 
           {/* City Filter */}
           <div className="flex flex-wrap items-center gap-1.5">
-            {['All', 'Mumbai', 'Bangalore', 'Delhi NCR', 'Pune', 'Hyderabad', 'Chennai'].map((city) => (
+            {['All', 'Mumbai', 'Bangalore', 'Delhi NCR', 'Ahmedabad', 'Pune', 'Hyderabad', 'Chennai', 'Kolkata'].map((city) => (
               <button
                 key={city}
                 onClick={() => setSelectedCity(city)}
