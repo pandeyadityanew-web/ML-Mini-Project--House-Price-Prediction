@@ -1,62 +1,42 @@
 [
   {
     "feature": "Area_SqFt",
-    "importance": 46.89
+    "importance": 51.07
   },
   {
     "feature": "Locality_Worli",
-    "importance": 10.36
+    "importance": 12.17
   },
   {
     "feature": "Locality_Bandra West",
-    "importance": 9.15
+    "importance": 10.24
   },
   {
     "feature": "City_Mumbai",
-    "importance": 6.92
+    "importance": 6.09
   },
   {
     "feature": "Locality_Gurgaon Golf Course Rd",
-    "importance": 3.15
-  },
-  {
-    "feature": "Property_Type_Penthouse",
-    "importance": 2.66
+    "importance": 3.1
   },
   {
     "feature": "Locality_Dadar",
-    "importance": 2.09
+    "importance": 2.16
   },
   {
-    "feature": "Bathrooms",
-    "importance": 1.51
-  },
-  {
-    "feature": "Locality_South Extension",
-    "importance": 1.49
-  },
-  {
-    "feature": "Locality_Bandra East",
-    "importance": 1.05
+    "feature": "Property_Type_Penthouse",
+    "importance": 1.36
   },
   {
     "feature": "Metro_Distance_KM",
-    "importance": 1.02
+    "importance": 1.25
   },
   {
-    "feature": "BHK",
-    "importance": 0.99
+    "feature": "Locality_South Extension",
+    "importance": 1.23
   },
   {
-    "feature": "Amenities_Score",
-    "importance": 0.96
-  },
-  {
-    "feature": "Property_Type_Villa",
-    "importance": 0.91
-  },
-  {
-    "feature": "Total_Floors",
-    "importance": 0.88
+    "feature": "Floor_No",
+    "importance": 1.17
   }
 ]

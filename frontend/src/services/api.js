@@ -52,17 +52,17 @@ export async function fetchModelInfo() {
   } catch (err) {
     return {
       dataset_name: "Indian Urban House Price Prediction Dataset (5,000 Records)",
-      best_model: "Gradient Boosting",
+      dataset_type: "Synthetic Procedural Benchmark",
+      best_model: "Random Forest",
       total_records: 5000,
       train_records: 4000,
       test_records: 1000,
       target_variable: "Price_INR_Lakhs",
       models_performance: {
-        "Linear Regression": { MAE: 61.47, RMSE: 99.78, R2: 0.8089, MAPE: 50.17 },
-        "Random Forest": { MAE: 38.25, RMSE: 68.10, R2: 0.9120, MAPE: 19.50 },
-        "Gradient Boosting": { MAE: 26.40, RMSE: 48.30, R2: 0.9520, MAPE: 14.20 }
+        "Linear Regression": { MAE: 104.26, RMSE: 194.95, R2: 0.7256, MAPE: 83.89 },
+        "Random Forest": { MAE: 69.16, RMSE: 142.72, R2: 0.8529, MAPE: 29.20 }
       },
-      best_model_metrics: { MAE: 26.40, RMSE: 48.30, R2: 0.9520, MAPE: 14.20 }
+      best_model_metrics: { MAE: 69.16, RMSE: 142.72, R2: 0.8529, MAPE: 29.20 }
     };
   }
 }
@@ -265,9 +265,9 @@ export function calculateClientModelEstimate(data) {
     },
     rate_per_sqft: finalRate,
     rate_per_sqft_formatted: `₹${finalRate.toLocaleString('en-IN')}/sq.ft`,
-    model_used: "Gradient Boosting Regressor",
-    model_r2: 0.9520,
-    model_mape: 14.20,
+    model_used: "Random Forest Regressor",
+    model_r2: 0.8529,
+    model_mape: 29.20,
     feature_impacts: [
       {
         factor: "Spatial Dimensions & BHK",

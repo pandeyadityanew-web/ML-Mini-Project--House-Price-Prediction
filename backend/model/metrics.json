@@ -1,6 +1,7 @@
 {
-  "dataset_name": "Indian Urban House Price Prediction Dataset",
-  "best_model": "Gradient Boosting",
+  "dataset_name": "Indian Urban House Price Prediction Dataset (Procedural Benchmark)",
+  "dataset_type": "Synthetic (Modeled on Real Indian Metropolitan Rates)",
+  "best_model": "Random Forest",
   "total_records": 5000,
   "train_records": 4000,
   "test_records": 1000,
@@ -34,16 +35,10 @@
       "MAPE": 83.89
     },
     "Random Forest": {
-      "MAE": 62.32,
-      "RMSE": 136.61,
-      "R2": 0.8652,
-      "MAPE": 24.13
-    },
-    "Gradient Boosting": {
-      "MAE": 38.91,
-      "RMSE": 84.72,
-      "R2": 0.9482,
-      "MAPE": 14.53
+      "MAE": 69.16,
+      "RMSE": 142.72,
+      "R2": 0.8529,
+      "MAPE": 29.2
     }
   },
   "cities": [

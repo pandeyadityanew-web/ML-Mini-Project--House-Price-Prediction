@@ -101,16 +101,16 @@ export default function Home({ setActivePage, setPrefillData }) {
           {/* Metrics Summary Strip */}
           <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
             <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
-              <div className="text-xs text-slate-400 font-medium">Validation Accuracy</div>
-              <div className="text-lg font-bold text-emerald-400 font-mono">R² 0.9482</div>
+              <div className="text-xs text-slate-400 font-medium">Test Set Accuracy</div>
+              <div className="text-lg font-bold text-emerald-400 font-mono">R² 0.8529</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
-              <div className="text-xs text-slate-400 font-medium">Winning Model</div>
-              <div className="text-base font-bold text-blue-400 truncate">Gradient Boosting</div>
+              <div className="text-xs text-slate-400 font-medium">Selected Model</div>
+              <div className="text-base font-bold text-blue-400 truncate">Random Forest</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
               <div className="text-xs text-slate-400 font-medium">Dataset Records</div>
-              <div className="text-lg font-bold text-white font-mono">5,000 Verified</div>
+              <div className="text-lg font-bold text-white font-mono">5,000 Records</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-md">
               <div className="text-xs text-slate-400 font-medium">Major Metros</div>

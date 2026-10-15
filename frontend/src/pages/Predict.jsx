@@ -741,7 +741,7 @@ export default function Predict({ prefillData, setActivePage }) {
                 <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
                   <div className="text-[11px] text-slate-400">Evaluated Model</div>
                   <div className="text-xs font-semibold text-emerald-400 truncate mt-0.5">
-                    {result.model_used || "Gradient Boosting Regressor"}
+                    {result.model_used || "Random Forest Regressor"}
                   </div>
                 </div>
               </div>
@@ -753,14 +753,14 @@ export default function Predict({ prefillData, setActivePage }) {
                     <ShieldCheck className="w-4 h-4 text-emerald-400" />
                     <span>Model Validation Performance</span>
                   </span>
-                  <span className="font-mono text-emerald-400">R² = {result.model_r2 || "0.9482"}</span>
+                  <span className="font-mono text-emerald-400">R² = {result.model_r2 || "0.8529"}</span>
                 </div>
                 <div className="flex justify-between text-slate-400 text-[11px]">
                   <span>Test-Set Mean Error (MAPE):</span>
-                  <span className="font-mono text-slate-200">{result.model_mape || "14.53"}%</span>
+                  <span className="font-mono text-slate-200">{result.model_mape || "29.20"}%</span>
                 </div>
                 <p className="text-[11px] text-slate-400 leading-relaxed pt-1 border-t border-slate-800/80">
-                  Trained on 5,000 verified Indian property records across 8 metropolitan clusters with 80/20 train/test holdout validation.
+                  Trained on 5,000 Indian housing records across 8 metropolitan clusters with 80/20 train/test holdout validation.
                 </p>
               </div>
 

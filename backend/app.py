@@ -1,3 +1,10 @@
+"""
+PropPredict — Flask REST API Server
+-----------------------------------
+Serves predictions and model metadata for the House Price Prediction web application.
+Loads the trained Scikit-learn Pipeline (model.pkl) into memory at startup.
+"""
+
 import os
 import sys
 import json
@@ -36,9 +43,9 @@ def load_artifacts():
     global model_pipeline, metrics_data, eval_data, feature_importance_data, inspection_data
     if os.path.exists(MODEL_PATH):
         model_pipeline = joblib.load(MODEL_PATH)
-        print("[BACKEND] Loaded Indian Urban House Price model.pkl pipeline.", flush=True)
+        print("[BACKEND] Successfully loaded production Pipeline (model.pkl).", flush=True)
     else:
-        print("[WARN] model.pkl not found! Run train.py first.", flush=True)
+        print("[WARN] model.pkl not found! Please run train.py first.", flush=True)
 
     if os.path.exists(METRICS_PATH):
         with open(METRICS_PATH, 'r') as f:
@@ -58,20 +65,16 @@ def load_artifacts():
 
 load_artifacts()
 
-def format_inr_lakhs_to_string(lakhs):
-    """
-    Formats price in Lakhs to Indian denomination: e.g. 125.5 -> '₹1.26 Cr', 45.0 -> '₹45.00 L'
-    """
+def format_inr_lakhs(lakhs):
+    """Formats a price in Lakhs to standard Indian notation (Cr or Lakhs)."""
     if lakhs >= 100.0:
         cr = lakhs / 100.0
         return f"₹{cr:.2f} Cr"
     else:
-        return f"₹{lakhs:.2f} L"
+        return f"₹{lakhs:.2f} Lakhs"
 
 def format_indian_number(amount):
-    """
-    Formats a full integer amount to standard Indian comma notation: e.g. 18750000 -> "₹1,87,50,000"
-    """
+    """Formats full integer amount into standard Indian comma grouping (e.g. 18,75,000)."""
     amount = round(amount)
     s = str(amount)
     if len(s) <= 3:
@@ -89,25 +92,27 @@ def format_indian_number(amount):
 def health():
     return jsonify({
         "status": "healthy",
-        "service": "PropPredict — Indian Urban House Price ML Service",
+        "service": "PropPredict ML Service",
         "model_loaded": model_pipeline is not None,
+        "selected_model": metrics_data.get("best_model", "Random Forest"),
         "version": "2.0.0"
     }), 200
 
 @app.route('/model-info', methods=['GET'])
 def model_info():
     if not metrics_data:
-        return jsonify({"error": "Model metadata not available. Please train model first."}), 500
+        return jsonify({"error": "Model metadata not available. Please run train.py first."}), 500
     
-    best_model_name = metrics_data.get("best_model", "Gradient Boosting")
+    best_model_name = metrics_data.get("best_model", "Random Forest")
     best_perf = metrics_data.get("models_performance", {}).get(best_model_name, {})
 
     return jsonify({
         "dataset_name": metrics_data.get("dataset_name", "Indian Urban House Price Prediction Dataset"),
+        "dataset_type": metrics_data.get("dataset_type", "Synthetic Procedural Benchmark"),
         "best_model": best_model_name,
-        "total_records": metrics_data.get("total_records", 4000),
-        "train_records": metrics_data.get("train_records", 3200),
-        "test_records": metrics_data.get("test_records", 800),
+        "total_records": metrics_data.get("total_records", 5000),
+        "train_records": metrics_data.get("train_records", 4000),
+        "test_records": metrics_data.get("test_records", 1000),
         "target_variable": metrics_data.get("target_variable", "Price_INR_Lakhs"),
         "numeric_features": metrics_data.get("numeric_features", []),
         "categorical_features": metrics_data.get("categorical_features", []),
@@ -133,18 +138,18 @@ def features_schema():
     return jsonify({
         "cities": metrics_data.get("cities", []),
         "city_localities": metrics_data.get("city_localities", {}),
-        "property_types": metrics_data.get("property_types", []),
-        "furnishing_statuses": metrics_data.get("furnishing_statuses", []),
+        "property_types": metrics_data.get("property_types", ["Apartment", "Independent House", "Villa", "Penthouse", "Studio"]),
+        "furnishing_statuses": metrics_data.get("furnishing_statuses", ["Furnished", "Semi-Furnished", "Unfurnished"]),
         "gated_options": ["Yes", "No"],
         "ranges": {
-            "bhk": {"min": 1, "max": 6, "default": 3},
+            "bhk": {"min": 1, "max": 6, "default": 2},
             "bathrooms": {"min": 1, "max": 6, "default": 2},
-            "area_sqft": {"min": 350, "max": 5500, "default": 1450},
-            "floor_no": {"min": 0, "max": 40, "default": 5},
-            "total_floors": {"min": 1, "max": 45, "default": 15},
+            "area_sqft": {"min": 350, "max": 5500, "default": 1000},
+            "floor_no": {"min": 0, "max": 45, "default": 8},
+            "total_floors": {"min": 1, "max": 50, "default": 20},
             "property_age": {"min": 0, "max": 30, "default": 2},
             "parking_spaces": {"min": 0, "max": 3, "default": 1},
-            "metro_distance_km": {"min": 0.2, "max": 15.0, "default": 1.2},
+            "metro_distance_km": {"min": 0.1, "max": 15.0, "default": 0.8},
             "amenities_score": {"min": 1, "max": 10, "default": 8}
         }
     }), 200
@@ -152,30 +157,31 @@ def features_schema():
 @app.route('/predict', methods=['POST'])
 def predict():
     if model_pipeline is None:
-        return jsonify({"error": "Model pipeline is not loaded. Run train.py first."}), 500
+        return jsonify({"error": "Model pipeline is not loaded. Please run train.py first."}), 500
 
     try:
         data = request.get_json(force=True)
         if not data:
             return jsonify({"error": "No input payload provided"}), 400
 
+        # Extract & validate input features
         city = str(data.get("City", data.get("city", "Mumbai")))
-        locality = str(data.get("Locality", data.get("locality", "Bandra West")))
+        locality = str(data.get("Locality", data.get("locality", "Kandivali West")))
         prop_type = str(data.get("Property_Type", data.get("property_type", "Apartment")))
         furnishing = str(data.get("Furnishing_Status", data.get("furnishing_status", "Semi-Furnished")))
         gated = str(data.get("Gated_Community", data.get("gated_community", "Yes")))
 
-        bhk = int(data.get("BHK", data.get("bhk", 3)))
+        bhk = int(data.get("BHK", data.get("bhk", 2)))
         bathrooms = int(data.get("Bathrooms", data.get("bathrooms", 2)))
-        area_sqft = float(data.get("Area_SqFt", data.get("area_sqft", data.get("living_area_sqft", 1450))))
-        floor_no = int(data.get("Floor_No", data.get("floor_no", 5)))
-        total_floors = int(data.get("Total_Floors", data.get("total_floors", 15)))
+        area_sqft = float(data.get("Area_SqFt", data.get("area_sqft", 1000)))
+        floor_no = int(data.get("Floor_No", data.get("floor_no", 8)))
+        total_floors = int(data.get("Total_Floors", data.get("total_floors", 20)))
         property_age = int(data.get("Property_Age", data.get("property_age", 2)))
         parking_spaces = int(data.get("Parking_Spaces", data.get("parking_spaces", 1)))
-        metro_distance_km = float(data.get("Metro_Distance_KM", data.get("metro_distance_km", 1.2)))
+        metro_distance_km = float(data.get("Metro_Distance_KM", data.get("metro_distance_km", 0.8)))
         amenities_score = int(data.get("Amenities_Score", data.get("amenities_score", 8)))
 
-        # Construct input DataFrame matching exact feature schema
+        # Construct single-row DataFrame matching the exact schema expected by ColumnTransformer
         input_dict = {
             "BHK": [bhk],
             "Bathrooms": [bathrooms],
@@ -192,60 +198,63 @@ def predict():
             "Furnishing_Status": [furnishing],
             "Gated_Community": [gated]
         }
-
         input_df = pd.DataFrame(input_dict)
 
-        # Run prediction through Scikit-learn Pipeline
+        # Run inference through Scikit-Learn Pipeline
         pred_lakhs = float(model_pipeline.predict(input_df)[0])
-        pred_lakhs = max(15.0, pred_lakhs) # Floor at minimum 15 Lakhs
+        pred_lakhs = max(15.0, pred_lakhs)
 
-        # Calculate exact INR values and rate per sq.ft
         exact_inr = round(pred_lakhs * 100000.0)
         rate_sqft = round(exact_inr / area_sqft) if area_sqft > 0 else 0
 
-        best_model_name = metrics_data.get("best_model", "Gradient Boosting")
-        best_r2 = metrics_data.get("models_performance", {}).get(best_model_name, {}).get("R2", 0.9614)
-        best_mape = metrics_data.get("models_performance", {}).get(best_model_name, {}).get("MAPE", 13.15)
+        best_model_name = metrics_data.get("best_model", "Random Forest")
+        best_r2 = metrics_data.get("models_performance", {}).get(best_model_name, {}).get("R2", 0.8529)
+        best_mape = metrics_data.get("models_performance", {}).get(best_model_name, {}).get("MAPE", 29.20)
 
-        # Feature factor contributions
+        # Expected price range using test MAPE
+        mape_fraction = (best_mape / 100.0) if best_mape else 0.25
+        low_lakhs = round(pred_lakhs * (1 - mape_fraction), 2)
+        high_lakhs = round(pred_lakhs * (1 + mape_fraction), 2)
+
         factor_explanations = [
             {
-                "factor": "Built-Up Area",
-                "value": f"{int(area_sqft):,} sq.ft",
-                "impact": "Primary Size Driver",
-                "description": f"Overall dimensions of {int(area_sqft):,} sq.ft govern baseline property scale."
+                "factor": "Spatial Scale & BHK",
+                "impact": f"{bhk} BHK ({int(area_sqft):,} sq.ft)",
+                "description": f"Layout of {bhk} bedrooms and {bathrooms} bathrooms over {int(area_sqft):,} sq.ft living area."
             },
             {
-                "factor": "City & Micro-Market",
-                "value": f"{locality}, {city}",
-                "impact": "High Geographic Impact",
-                "description": f"Micro-market land rate for {locality} in {city} dictates square foot valuation."
+                "factor": "Micro-Market Rate",
+                "impact": f"{locality}, {city}",
+                "description": f"Governed by baseline residential pricing in {locality} ({city})."
             },
             {
-                "factor": "Property Layout",
-                "value": f"{bhk} BHK · {prop_type}",
-                "impact": "Layout Tier",
-                "description": f"Configuration matching {bhk} bedrooms and {bathrooms} bathrooms."
+                "factor": "Society Amenities",
+                "impact": f"Score {amenities_score}/10 ({gated} Gated)",
+                "description": f"Clubhouse, security, and facility tier adjustment on square-foot valuation."
             },
             {
-                "factor": "Vintage & Amenities",
-                "value": f"{property_age} Yrs · Score {amenities_score}/10",
-                "impact": "Amenities Multiplier",
-                "description": f"Building age depreciation offset by gated society amenities and transit access."
+                "factor": "Condition & Parking",
+                "impact": f"{furnishing} · {parking_spaces} Parking",
+                "description": f"{furnishing} status and {parking_spaces} dedicated car parking slot(s)."
             }
         ]
 
         response = {
             "predicted_price_lakhs": round(pred_lakhs, 2),
-            "predicted_price_formatted": format_inr_lakhs_to_string(pred_lakhs),
+            "predicted_price_formatted": format_inr_lakhs(pred_lakhs),
             "price_inr_exact": exact_inr,
             "price_inr_formatted": format_indian_number(exact_inr),
+            "price_range": {
+                "low_lakhs": low_lakhs,
+                "high_lakhs": high_lakhs,
+                "low_formatted": format_inr_lakhs(low_lakhs),
+                "high_formatted": format_inr_lakhs(high_lakhs)
+            },
             "rate_per_sqft": rate_sqft,
             "rate_per_sqft_formatted": f"{format_indian_number(rate_sqft)} / sq.ft",
-            "model_used": best_model_name,
+            "model_used": f"{best_model_name} Regressor",
             "model_r2": best_r2,
             "model_mape": best_mape,
-            "currency": "INR",
             "feature_impacts": factor_explanations,
             "input_features": {
                 "City": city,
@@ -268,7 +277,7 @@ def predict():
         return jsonify(response), 200
 
     except Exception as e:
-        print(f"[ERROR] /predict failed: {str(e)}", flush=True)
+        print(f"[ERROR] Prediction failed: {str(e)}", flush=True)
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

@@ -46,11 +46,11 @@ export default function About({ setActivePage }) {
       <div className="p-5 sm:p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
         <div className="flex items-center gap-2 text-xs font-semibold text-blue-400 uppercase tracking-wider">
           <Database className="w-4 h-4" />
-          <span>Dataset Details</span>
+          <span>Dataset Details & Academic Transparency</span>
         </div>
-        <h3 className="text-base font-bold text-white">Indian Urban House Price Dataset</h3>
+        <h3 className="text-base font-bold text-white">Indian Urban House Price Dataset (5,000 Records)</h3>
         <p className="text-xs text-slate-300 leading-relaxed">
-          The model is trained on a structured dataset of <strong>5,000 property records</strong> across 8 major Indian metropolitan areas and 60+ micro-market localities. All features were audited for target leakage (dropping derived variables like <code className="text-blue-400">Price_per_SqFt</code>). The continuous target variable is <strong>Price_INR_Lakhs</strong>.
+          The model is trained on a structured dataset of <strong>5,000 property records</strong> across 8 major Indian metropolitan areas and 60+ micro-market localities. Because official government sale deed registries across Indian states are fragmented and proprietary, this dataset was procedurally synthesized using published Indian real-estate market benchmark rates (MagicBricks / 99acres price indices). All features were audited for target leakage (explicitly dropping derived variables like <code className="text-blue-400">Price_per_SqFt</code>). The continuous target variable is <strong>Price_INR_Lakhs</strong>.
         </p>
       </div>
 
@@ -87,19 +87,22 @@ export default function About({ setActivePage }) {
       <div className="p-5 sm:p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
         <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-wider">
           <ShieldAlert className="w-4 h-4" />
-          <span>Considerations & Limitations</span>
+          <span>Academic Considerations & Limitations</span>
         </div>
         <h3 className="text-base font-bold text-white">Model Scope & Assumptions</h3>
         
         <ul className="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
           <li>
-            Predictions are optimal within standard residential distributions (350 – 5,500 sq.ft, 1 – 6 BHK) across the represented 8 metropolitan clusters.
+            <strong>Dataset Nature:</strong> The dataset is procedurally synthesized using authentic Indian micro-market benchmark rates. While it provides an excellent testbed for studying regression algorithms and feature encoding, its high test R² score demonstrates mastery of the benchmark data rather than commercial market certainty.
           </li>
           <li>
-            Macro-economic interest rate changes, municipal rezoning, and stamp duty shifts are assumed constant relative to baseline training data.
+            <strong>Feature Scope:</strong> Predictions are optimal within standard residential distributions (350 – 5,500 sq.ft, 1 – 6 BHK) across the represented 8 metropolitan clusters.
           </li>
           <li>
-            The model provides statistical estimates and is intended as a quantitative estimation tool rather than an official certified legal surveyor appraisal.
+            <strong>External Factors:</strong> Macro-economic interest rate changes, municipal rezoning, and stamp duty shifts are held constant relative to baseline training data.
+          </li>
+          <li>
+            <strong>Intended Use:</strong> The model is designed as an educational and decision-support tool rather than an official certified legal surveyor appraisal.
           </li>
         </ul>
       </div>
