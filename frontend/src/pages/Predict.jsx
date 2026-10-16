@@ -76,7 +76,6 @@ export default function Predict({ prefillData, setActivePage }) {
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
   const [copied, setCopied] = useState(false);
-  const isInitialMount = useRef(true);
 
   // Apply prefill data when redirected from other pages
   useEffect(() => {
@@ -98,6 +97,7 @@ export default function Predict({ prefillData, setActivePage }) {
         Metro_Distance_KM: Number(prefillData.Metro_Distance_KM || prefillData.metro_dist || prev.Metro_Distance_KM),
         Amenities_Score: Number(prefillData.Amenities_Score || prefillData.amenities_score || prev.Amenities_Score)
       }));
+      setResult(null); // Keep result null until user clicks predict
     }
   }, [prefillData]);
 
@@ -115,28 +115,6 @@ export default function Predict({ prefillData, setActivePage }) {
   const cityLocalitiesMap = schema?.city_localities || DEFAULT_CITY_LOCALITIES;
   const citiesList = schema?.cities || Object.keys(cityLocalitiesMap);
   const availableLocalities = cityLocalitiesMap[formData.City] || DEFAULT_CITY_LOCALITIES[formData.City] || [];
-
-  // Live Auto-Calculation whenever formData changes
-  useEffect(() => {
-    let cancel = false;
-    const timer = setTimeout(async () => {
-      try {
-        const response = await predictPrice(formData);
-        if (!cancel) {
-          setResult(response);
-          setError(null);
-        }
-      } catch (err) {
-        if (!cancel) setError(err.message);
-      }
-    }, isInitialMount.current ? 0 : 100);
-
-    isInitialMount.current = false;
-    return () => {
-      cancel = true;
-      clearTimeout(timer);
-    };
-  }, [formData]);
 
   const handleCityChange = (newCity) => {
     const locs = cityLocalitiesMap[newCity] || DEFAULT_CITY_LOCALITIES[newCity] || [];
@@ -194,6 +172,7 @@ export default function Predict({ prefillData, setActivePage }) {
 
   // Quick Presets
   const applyPreset = (presetName) => {
+    setResult(null); // Clear previous valuation so user clicks Predict
     if (presetName === 'mumbai-kandivali-2bhk') {
       setFormData({
         City: "Mumbai",
@@ -319,6 +298,18 @@ export default function Predict({ prefillData, setActivePage }) {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
+      {/* Top Breadcrumb / Back button */}
+      <div className="flex items-center justify-between">
+        <button
+          type="button"
+          onClick={() => setActivePage('home')}
+          className="inline-flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-white transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-800"
+        >
+          <span>← Back to Home</span>
+        </button>
+        <span className="text-xs text-slate-500 font-mono">PropPredict ML Engine v2.0</span>
+      </div>
+
       {/* Header Banner */}
       <div className="p-6 sm:p-8 rounded-3xl real-estate-predict-bg border border-slate-800 shadow-2xl relative overflow-hidden text-center space-y-3">
         <div className="absolute inset-0 blueprint-grid pointer-events-none opacity-20"></div>
@@ -331,7 +322,7 @@ export default function Predict({ prefillData, setActivePage }) {
             Property Value Estimator
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-            “Select Indian micro-markets, bedrooms, square footage, and amenities. The price updates live in real time.”
+            Select Indian micro-markets, bedrooms, square footage, and amenities, then click <strong className="text-blue-400 font-semibold">Predict Property Price</strong> to compute the ML valuation.
           </p>
 
           {/* Quick Presets Bar */}
@@ -678,7 +669,7 @@ export default function Predict({ prefillData, setActivePage }) {
               ) : (
                 <>
                   <Calculator className="w-4 h-4" />
-                  <span>Recalculate Valuation Now</span>
+                  <span>Predict Property Price</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -806,15 +797,39 @@ export default function Predict({ prefillData, setActivePage }) {
 
             </div>
           ) : (
-            /* Loading / Blank state */
-            <div className="p-8 rounded-2xl bg-slate-900/90 border border-slate-800 text-center space-y-3 shadow-lg">
-              <div className="w-12 h-12 rounded-xl bg-blue-600/10 text-blue-400 flex items-center justify-center mx-auto">
-                <Calculator className="w-6 h-6" />
+            /* Blank state awaiting user click on predict */
+            <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl backdrop-blur-xl space-y-6 text-center flex flex-col items-center justify-center min-h-[460px]">
+              <div className="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shadow-inner">
+                <Calculator className="w-8 h-8" />
               </div>
-              <h3 className="font-bold text-base text-white">Estimating Valuation...</h3>
-              <p className="text-xs text-slate-400 max-w-xs mx-auto">
-                The ML model is computing live predictions for the selected property features.
-              </p>
+
+              <div className="space-y-2 max-w-sm">
+                <h3 className="text-xl font-bold text-white">Awaiting Valuation</h3>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Configure property features on the left and click <span className="text-blue-400 font-semibold">"Predict Property Price"</span> to compute the estimated market value using our trained Scikit-Learn Random Forest model.
+                </p>
+              </div>
+
+              {/* Current Configuration Summary */}
+              <div className="w-full bg-slate-950/70 border border-slate-800/80 rounded-xl p-4 text-left space-y-2 text-xs">
+                <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-1.5 flex items-center justify-between">
+                  <span>Selected Parameters</span>
+                  <span className="text-emerald-400 font-mono text-[10px]">Ready for Inference</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-slate-300 pt-1">
+                  <div><span className="text-slate-400">Location:</span> <span className="text-white font-medium">{formData.Locality}, {formData.City}</span></div>
+                  <div><span className="text-slate-400">Format:</span> <span className="text-white font-medium">{formData.BHK} BHK {formData.Property_Type}</span></div>
+                  <div><span className="text-slate-400">Built-Up Area:</span> <span className="text-white font-medium">{Number(formData.Area_SqFt).toLocaleString()} sq.ft</span></div>
+                  <div><span className="text-slate-400">Elevation:</span> <span className="text-white font-medium">Floor {formData.Floor_No} of {formData.Total_Floors}</span></div>
+                  <div><span className="text-slate-400">Furnishing:</span> <span className="text-white font-medium">{formData.Furnishing_Status}</span></div>
+                  <div><span className="text-slate-400">Amenities:</span> <span className="text-white font-medium">{formData.Amenities_Score}/10 Score</span></div>
+                </div>
+              </div>
+
+              <div className="text-[11px] text-slate-400 flex items-center gap-2 pt-1">
+                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <span>Click <strong className="text-white">Predict Property Price</strong> on the left to evaluate</span>
+              </div>
             </div>
           )}
 

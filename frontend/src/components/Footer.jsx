@@ -60,15 +60,15 @@ export default function Footer({ setActivePage }) {
             <ul className="space-y-2 text-xs">
               <li className="flex items-center gap-2">
                 <Database className="w-3.5 h-3.5 text-blue-400" />
-                <span>3,600 Dataset Samples</span>
+                <span>5,000 Dataset Samples</span>
               </li>
               <li className="flex items-center gap-2">
                 <BrainCircuit className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Gradient Boosting Model</span>
+                <span>Random Forest Regressor</span>
               </li>
               <li className="flex items-center gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-                <span>R² Score: 0.9527 (95.3%)</span>
+                <span>R² Score: 0.8529 (85.3%)</span>
               </li>
             </ul>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Sliders, Building2, BrainCircuit, Info, Menu, X, ArrowRight } from 'lucide-react';
+import { Home, Building2, BrainCircuit, Info, Menu, X } from 'lucide-react';
 import { fetchHealth } from '../services/api';
 
 export default function Navbar({ activePage, setActivePage }) {
@@ -20,7 +20,6 @@ export default function Navbar({ activePage, setActivePage }) {
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'predict', label: 'Predict Price', icon: Sliders },
     { id: 'properties', label: 'Properties', icon: Building2 },
     { id: 'model', label: 'The Model', icon: BrainCircuit },
     { id: 'about', label: 'About', icon: Info },
@@ -82,14 +81,6 @@ export default function Navbar({ activePage, setActivePage }) {
                 {serverStatus === 'online' ? 'Model Active' : serverStatus === 'checking' ? 'Connecting...' : 'API Offline'}
               </span>
             </div>
-
-            <button
-              onClick={() => setActivePage('predict')}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors shadow-sm"
-            >
-              <span>Predict Now</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -127,18 +118,6 @@ export default function Navbar({ activePage, setActivePage }) {
               </button>
             );
           })}
-          <div className="pt-2">
-            <button
-              onClick={() => {
-                setActivePage('predict');
-                setMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm"
-            >
-              <span>Predict Property Price</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
         </div>
       )}
     </header>
